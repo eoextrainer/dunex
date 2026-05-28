@@ -1156,22 +1156,19 @@
       "9465320-uhd_3840_2160_25fps.mp4"
     ])];
 
-    const uvpMediaBank = {
-      caseStudies: [
-        { type: "video", src: "reelz/10503922-hd_1920_1080_30fps.mp4", caption: { en: "Case Studies | Real outcomes from people, companies, and organisations.", fr: "Etudes de Cas | Resultats reels pour personnes, entreprises et organisations." } },
-        { type: "image", background: "linear-gradient(130deg, #201f27, #3d4b63 52%, #7c5a3c)", caption: { en: "Case Studies | Hero carousel ready for your future video and image library.", fr: "Etudes de Cas | Hero carousel pret pour votre future bibliotheque video et image." } },
-        { type: "video", src: "reelz/6646673-hd_1920_1080_24fps.mp4", caption: { en: "Case Studies | Stories of measurable transformation and growth.", fr: "Etudes de Cas | Histoires de transformation et de croissance mesurable." } }
-      ],
-      eventCalendar: [
-        { type: "image", background: "linear-gradient(140deg, #1b1f2b, #3b2950 55%, #6a4730)", caption: { en: "Event Calendar 2026-2027 | Scheduled, delivered, and upcoming milestones.", fr: "Calendrier 2026-2027 | Jalons planifies, realises et a venir." } },
-        { type: "video", src: "reelz/7048710-uhd_3840_2160_30fps.mp4", caption: { en: "Event Calendar | Fashion-themed timeline experiences in motion.", fr: "Calendrier Evenements | Experiences de planning mode en mouvement." } },
-        { type: "image", background: "linear-gradient(135deg, #162027, #364a52 46%, #8f6b45)", caption: { en: "Event Calendar | Dedicated media bank for this section only.", fr: "Calendrier Evenements | Banque media dediee uniquement a cette section." } }
-      ],
-      partnerProgram: [
-        { type: "video", src: "reelz/6153576-uhd_4096_2160_25fps.mp4", caption: { en: "Partner Program | Endorse the DUNEX cause with visible, tangible value.", fr: "Programme Partenaire | Endossez la cause DUNEX avec une valeur visible et tangible." } },
-        { type: "image", background: "linear-gradient(140deg, #211a1e, #3f2e3a 56%, #73583b)", caption: { en: "Partner Program | Future compelling endorsement copy can be injected here.", fr: "Programme Partenaire | Le futur texte de conviction pourra etre injecte ici." } },
-        { type: "video", src: "reelz/6893992-uhd_3840_2160_25fps.mp4", caption: { en: "Partner Program | Campaign-grade media frame for sponsor storytelling.", fr: "Programme Partenaire | Cadre media premium pour le storytelling sponsor." } }
-      ]
+    const uvpCaptionByTile = {
+      caseStudies: {
+        en: "Case Studies | Real outcomes from people, companies, and organisations.",
+        fr: "Etudes de Cas | Resultats reels pour personnes, entreprises et organisations."
+      },
+      eventCalendar: {
+        en: "Event Calendar | Fashion-themed timeline experiences in motion.",
+        fr: "Calendrier Evenements | Experiences de planning mode en mouvement."
+      },
+      partnerProgram: {
+        en: "Partner Program | Endorse the DUNEX cause with visible, tangible value.",
+        fr: "Programme Partenaire | Endossez la cause DUNEX avec une valeur visible et tangible."
+      }
     };
 
     function t(key) {
@@ -1348,7 +1345,12 @@
     }
 
     function getUvpItems() {
-      return uvpMediaBank[activeUvpKey] || [];
+      const caption = uvpCaptionByTile[activeUvpKey] || uvpCaptionByTile.caseStudies;
+      return eligibleReelFiles.map((fileName) => ({
+        type: "video",
+        src: `reelz/${encodeURIComponent(fileName)}`,
+        caption
+      }));
     }
 
     function buildUvpOrder() {
@@ -1391,12 +1393,8 @@
       const media = slot.querySelector(".carousel-media");
       const caption = slot.querySelector(".carousel-caption");
 
-      if (item.type === "video") {
-        media.innerHTML = `<video autoplay muted playsinline loop preload="metadata"><source src="${item.src}" type="video/mp4" /></video>`;
-      } else {
-        media.innerHTML = "";
-        media.style.background = item.background;
-      }
+      media.style.background = "";
+      media.innerHTML = `<video autoplay muted playsinline loop preload="metadata"><source src="${item.src}" type="video/mp4" /></video>`;
 
       caption.textContent = item.caption[currentLang] || item.caption.en;
 
