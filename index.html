@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DUNEX | 360 Growth Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    :root {
+      --ink: #1b1a1f;
+      --mist: #f5f1ed;
+      --paper: #fffaf7;
+      --rose: #b8485e;
+      --gold: #c58a3a;
+      --teal: #1f7d8c;
+      --slate: #2f3445;
+      --sand: #eadfce;
+      --card-shadow: 0 14px 35px rgba(27, 26, 31, 0.12);
+      --soft-shadow: 0 8px 20px rgba(27, 26, 31, 0.08);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(197, 138, 58, 0.28), transparent 40%),
+        radial-gradient(circle at 88% 18%, rgba(31, 125, 140, 0.25), transparent 42%),
+        radial-gradient(circle at 82% 80%, rgba(184, 72, 94, 0.2), transparent 45%),
+        linear-gradient(140deg, #f9f4ef 0%, #f7efe8 38%, #efe7de 100%);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(27, 26, 31, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(27, 26, 31, 0.02) 1px, transparent 1px);
+      background-size: 34px 34px;
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .container {
+      width: min(1180px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    .hero {
+      border-radius: var(--radius-xl);
+      padding: clamp(22px, 4vw, 44px);
+      background:
+        linear-gradient(120deg, rgba(255, 250, 247, 0.94), rgba(255, 255, 255, 0.86)),
+        linear-gradient(35deg, rgba(184, 72, 94, 0.3), rgba(31, 125, 140, 0.24));
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(5px);
+      animation: fadeUp 700ms ease;
+    }
+
+    .brand-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 600;
+      background: rgba(27, 26, 31, 0.07);
+    }
+
+    .brand-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.1rem, 6vw, 3.6rem);
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-subtitle {
+      margin-top: 10px;
+      max-width: 900px;
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      color: rgba(27, 26, 31, 0.82);
+    }
+
+    .meta-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .meta-card {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(47, 52, 69, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .meta-label {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: rgba(47, 52, 69, 0.65);
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      margin: 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--slate);
+    }
+
+    .tabs {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.58);
+      padding: 10px;
+      border-radius: var(--radius-pill);
+      width: fit-content;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(4px);
+    }
+
+    .lang-switch {
+      margin-top: 14px;
+      display: inline-flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(47, 52, 69, 0.12);
+      border-radius: var(--radius-pill);
+      padding: 6px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .lang-btn {
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--slate);
+      background: transparent;
+      cursor: pointer;
+      transition: all 220ms ease;
+      text-transform: uppercase;
+    }
+
+    .lang-btn:hover {
+      background: rgba(27, 26, 31, 0.06);
+    }
+
+    .lang-btn.active {
+      color: white;
+      background: linear-gradient(120deg, var(--slate), var(--ink));
+      box-shadow: 0 8px 16px rgba(27, 26, 31, 0.24);
+    }
+
+    .tab-btn {
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--slate);
+      background: transparent;
+      cursor: pointer;
+      transition: all 220ms ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(27, 26, 31, 0.06);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(120deg, var(--teal), var(--rose));
+      color: white;
+      box-shadow: 0 8px 16px rgba(47, 52, 69, 0.2);
+    }
+
+    .tab-panel {
+      display: none;
+      margin-top: 20px;
+      animation: fadeUp 450ms ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .journey-hero-shell {
+      position: relative;
+      margin-bottom: 18px;
+      min-height: clamp(320px, 43vw, 470px);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(27, 26, 31, 0.92), rgba(47, 52, 69, 0.84));
+    }
+
+    .carousel-stage {
+      position: relative;
+      min-height: inherit;
+      border-radius: inherit;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.025);
+      transition: opacity 1400ms ease, transform 3200ms cubic-bezier(0.19, 1, 0.22, 1);
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .carousel-media,
+    .carousel-media iframe,
+    .carousel-media video {
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-media {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(197, 138, 58, 0.2), transparent 26%),
+        linear-gradient(135deg, rgba(17, 18, 24, 0.96), rgba(40, 47, 62, 0.9));
+    }
+
+    .carousel-media iframe,
+    .carousel-media video {
+      border: 0;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.95) contrast(1.04);
+    }
+
+    .carousel-media video.is-portrait {
+      object-fit: contain;
+      width: min(100%, 62%);
+      margin: 0 auto;
+      filter: saturate(1) contrast(1.02) drop-shadow(0 16px 36px rgba(0, 0, 0, 0.34));
+    }
+
+    .carousel-media video.is-square {
+      object-fit: contain;
+      width: min(100%, 72%);
+      margin: 0 auto;
+      filter: saturate(0.98) contrast(1.03) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.28));
+    }
+
+    .carousel-media video.is-landscape {
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .carousel-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(27, 26, 31, 0.74), rgba(27, 26, 31, 0.24) 48%, rgba(27, 26, 31, 0.55)),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.38));
+      pointer-events: none;
+    }
+
+    .carousel-copy {
+      position: absolute;
+      left: clamp(20px, 3vw, 34px);
+      right: auto;
+      bottom: 34px;
+      z-index: 4;
+      display: flex;
+      align-items: flex-start;
+      pointer-events: none;
+      color: white;
+    }
+
+    .carousel-caption {
+      display: inline-flex;
+      max-width: min(560px, calc(100vw - 96px));
+      padding: 11px 16px;
+      border-radius: 12px;
+      background: rgba(17, 18, 24, 0.36);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      z-index: 3;
+      display: flex;
+    }
+
+    .carousel-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.8rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .carousel-counter::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08);
+    }
+
+    .carousel-progress {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 14px;
+      z-index: 3;
+      height: 4px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .carousel-progress-fill {
+      width: 100%;
+      height: 100%;
+      transform-origin: left center;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, rgba(197, 138, 58, 0.95), rgba(255, 255, 255, 0.95));
+      transition: transform 100ms linear;
+    }
+
+    .uvp-accordion {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .uvp-tile {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(47, 52, 69, 0.14);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+      transition: box-shadow 220ms ease, transform 220ms ease;
+    }
+
+    .uvp-tile.active {
+      border-color: rgba(31, 125, 140, 0.38);
+      box-shadow: 0 16px 30px rgba(27, 26, 31, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .uvp-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--ink);
+      font-family: inherit;
+    }
+
+    .uvp-toggle:hover {
+      background: rgba(27, 26, 31, 0.03);
+    }
+
+    .uvp-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .uvp-chevron {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(27, 26, 31, 0.08);
+      color: var(--slate);
+      font-size: 0.9rem;
+      transition: transform 220ms ease, background-color 220ms ease;
+      flex: 0 0 auto;
+    }
+
+    .uvp-tile.active .uvp-chevron {
+      transform: rotate(180deg);
+      background: rgba(31, 125, 140, 0.18);
+    }
+
+    .uvp-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms ease;
+      padding: 0 16px;
+    }
+
+    .uvp-tile.active .uvp-content {
+      max-height: 220px;
+      padding: 0 16px 14px;
+    }
+
+    .uvp-text {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(27, 26, 31, 0.84);
+    }
+
+    .value-carousel-shell {
+      position: relative;
+      min-height: clamp(290px, 37vw, 410px);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(27, 26, 31, 0.92), rgba(47, 52, 69, 0.84));
+      margin-top: 6px;
+    }
+
+    .journey-layout {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1.2fr 1fr;
+    }
+
+    .panel-shell {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(47, 52, 69, 0.1);
+      border-radius: var(--radius-lg);
+      padding: clamp(16px, 2.3vw, 22px);
+      box-shadow: var(--card-shadow);
+    }
+
+    .diagram-title,
+    .panel-title {
+      margin: 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .diagram-caption {
+      margin-top: 6px;
+      margin-bottom: 14px;
+      color: rgba(27, 26, 31, 0.72);
+      font-size: 0.9rem;
+    }
+
+    #clock-chart {
+      width: 100%;
+      min-height: 500px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(140deg, rgba(255, 255, 255, 0.8), rgba(250, 246, 241, 0.7));
+      border: 1px solid rgba(47, 52, 69, 0.1);
+      overflow: hidden;
+    }
+
+    .focus-card {
+      border-radius: var(--radius-md);
+      background: linear-gradient(150deg, rgba(31, 125, 140, 0.08), rgba(184, 72, 94, 0.08));
+      border: 1px solid rgba(47, 52, 69, 0.08);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--soft-shadow);
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 520ms ease, transform 760ms cubic-bezier(0.19, 1, 0.22, 1);
+      will-change: opacity, transform;
+    }
+
+    .focus-card.is-leaving {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .focus-card.is-entering {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .focus-hour {
+      margin: 0;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(27, 26, 31, 0.66);
+    }
+
+    .focus-title {
+      margin: 6px 0 9px;
+      font-size: 1.06rem;
+      font-weight: 700;
+      color: var(--slate);
+    }
+
+    .focus-text {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      color: rgba(27, 26, 31, 0.84);
+    }
+
+    .focus-context {
+      margin: 0;
+      padding: 12px 12px 12px 14px;
+      border-left: 3px solid var(--rose);
+      background: rgba(255, 255, 255, 0.74);
+      border-radius: 8px;
+      color: rgba(27, 26, 31, 0.88);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .legend-item {
+      border-radius: 10px;
+      border: 1px solid rgba(47, 52, 69, 0.12);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 9px 10px;
+      font-size: 0.8rem;
+      color: rgba(27, 26, 31, 0.82);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .service-card,
+    .future-card {
+      border-radius: var(--radius-md);
+      padding: 15px;
+      border: 1px solid rgba(47, 52, 69, 0.1);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--soft-shadow);
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+
+    .service-card:hover,
+    .future-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 28px rgba(27, 26, 31, 0.14);
+    }
+
+    .service-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+
+    .service-kicker {
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      color: rgba(27, 26, 31, 0.62);
+    }
+
+    .service-title {
+      margin: 0 0 8px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.35rem;
+      color: var(--ink);
+    }
+
+    .service-text {
+      margin: 0;
+      font-size: 0.88rem;
+      color: rgba(27, 26, 31, 0.84);
+    }
+
+    .footnote {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(27, 26, 31, 0.66);
+    }
+
+    @media (max-width: 980px) {
+      .journey-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .journey-hero-shell {
+        min-height: 340px;
+      }
+
+      #clock-chart {
+        min-height: 440px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(1180px, 94vw);
+      }
+
+      .tabs {
+        width: 100%;
+      }
+
+      .tab-btn {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+      }
+
+      .carousel-title {
+        max-width: none;
+      }
+
+      .carousel-nav {
+        left: 24px;
+        right: auto;
+        bottom: 24px;
+      }
+
+      .carousel-progress {
+        left: 24px;
+        right: 24px;
+        bottom: 16px;
+      }
+
+      .carousel-copy {
+        left: 24px;
+        bottom: 38px;
+      }
+
+      #clock-chart {
+        min-height: 390px;
+      }
+
+      .carousel-copy {
+        left: 16px;
+        right: 16px;
+        bottom: 34px;
+      }
+
+      .carousel-caption {
+        max-width: 100%;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="brand-line">
+        <span class="brand-pill" data-i18n="brandPill">DUNES x EOEX LLP Venture</span>
+      </div>
+      <h1 class="brand-title" data-i18n="brandTitle">DUNEX - The DUNES EXPERIENCE</h1>
+      <p class="brand-subtitle" data-i18n="brandSubtitle">
+        A 360 growth journey where DUNEX engages professionals and companies at their current stage,
+        builds trust through transparency and proven expertise, and supports measurable progress toward
+        their goals through training, creativity, technology, and community.
+      </p>
+
+      <div class="lang-switch" aria-label="Language switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+      </div>
+
+      <div class="meta-grid">
+        <article class="meta-card">
+          <p class="meta-label" data-i18n="metaHqLabel">Headquarters</p>
+          <p class="meta-value" data-i18n="metaHqValue">The Base, St Pierre de Corps, near Tours (France)</p>
+        </article>
+        <article class="meta-card">
+          <p class="meta-label" data-i18n="metaModelLabel">Operating Model</p>
+          <p class="meta-value" data-i18n="metaModelValue">Circular client development, 12-stage clock journey</p>
+        </article>
+        <article class="meta-card">
+          <p class="meta-label" data-i18n="metaMissionLabel">Core Mission</p>
+          <p class="meta-value" data-i18n="metaMissionValue">Growth and visibility for people, brands, and local ecosystems</p>
+        </article>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="DUNEX sections" data-i18n-aria-label="tabsAria">
+      <button class="tab-btn active" data-tab="journey" data-i18n="tabJourney">360 Journey</button>
+      <button class="tab-btn" data-tab="services" data-i18n="tabServices">Services & Expertise</button>
+      <button class="tab-btn" data-tab="community" data-i18n="tabCommunity">Community Ecosystem</button>
+      <button class="tab-btn" data-tab="future" data-i18n="tabFuture">Our Unique Value</button>
+    </nav>
+
+    <section class="tab-panel active" id="journey-panel" role="tabpanel" aria-label="360 Journey" data-i18n-aria-label="tabJourney">
+      <article class="panel-shell journey-hero-shell">
+        <div class="carousel-stage" id="hero-carousel"></div>
+        <div class="carousel-nav"><span class="carousel-counter" id="carousel-counter">Random Reel</span></div>
+        <div class="carousel-progress" aria-hidden="true"><div class="carousel-progress-fill" id="carousel-progress-fill"></div></div>
+      </article>
+
+      <div class="journey-layout">
+        <article class="panel-shell">
+          <h2 class="diagram-title" data-i18n="diagramTitle">Clock-Based Circular Journey</h2>
+          <p class="diagram-caption" data-i18n="diagramCaption">
+            Each step is positioned as an hour on the clock, reflecting a continuous cycle of trust,
+            activation, visibility, and long-term value creation.
+          </p>
+          <div id="clock-chart" aria-label="DUNEX 12-hour journey diagram" data-i18n-aria-label="chartAria"></div>
+        </article>
+
+        <article class="panel-shell">
+          <h2 class="panel-title" data-i18n="selectedStage">Selected Stage</h2>
+          <div id="focus-card" class="focus-card"></div>
+
+          <div class="legend">
+            <div class="legend-item"><span class="dot" style="background:#b8485e"></span> <span data-i18n="legendConsulting">Consulting & Strategy</span></div>
+            <div class="legend-item"><span class="dot" style="background:#1f7d8c"></span> <span data-i18n="legendEvents">Events & Experience</span></div>
+            <div class="legend-item"><span class="dot" style="background:#c58a3a"></span> <span data-i18n="legendCreative">Creative Ecosystem</span></div>
+            <div class="legend-item"><span class="dot" style="background:#2f3445"></span> <span data-i18n="legendVisibility">Visibility & Network</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="services-panel" role="tabpanel" aria-label="Services and Expertise" data-i18n-aria-label="tabServices">
+      <article class="panel-shell">
+        <h2 class="panel-title" data-i18n="servicesTitle">Core Service Pillars</h2>
+        <div class="service-layout">
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="servicesP1Kicker">Pillar 01</p>
+            <h3 class="service-title" data-i18n="servicesP1Title">Digital & AI Advisory</h3>
+            <p class="service-text" data-i18n="servicesP1Text">
+              Free masterclasses at client premises or at The Base, then customized support in digital marketing,
+              social media strategy, and practical AI adoption to optimize budgets and increase revenue impact.
+            </p>
+          </article>
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="servicesP2Kicker">Pillar 02</p>
+            <h3 class="service-title" data-i18n="servicesP2Title">Fashion & Events Production</h3>
+            <p class="service-text" data-i18n="servicesP2Text">
+              Inclusive runway programs, corporate event support, photo and video studio production, and branded
+              experiences that help organizations connect with modern audiences.
+            </p>
+          </article>
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="servicesP3Kicker">Pillar 03</p>
+            <h3 class="service-title" data-i18n="servicesP3Title">Wellness & Team Activation</h3>
+            <p class="service-text" data-i18n="servicesP3Text">
+              Afterwork gatherings, fitness bootcamps, and wellness-oriented activations that strengthen employee
+              engagement while building authentic relationships across partner networks.
+            </p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="tab-panel" id="community-panel" role="tabpanel" aria-label="Community Ecosystem" data-i18n-aria-label="tabCommunity">
+      <article class="panel-shell">
+        <h2 class="panel-title" data-i18n="communityTitle">Ecosystem Visibility Engine</h2>
+        <div class="service-layout">
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="communityC1Kicker">Models Network</p>
+            <h3 class="service-title" data-i18n="communityC1Title">Professional Talent Pool</h3>
+            <p class="service-text" data-i18n="communityC1Text">National and international model networks supporting runway events and campaign reliability.</p>
+          </article>
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="communityC2Kicker">Designers Network</p>
+            <h3 class="service-title" data-i18n="communityC2Title">Local Fashion Designers</h3>
+            <p class="service-text" data-i18n="communityC2Text">Structured promotion channels to make local creations visible and discoverable.</p>
+          </article>
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="communityC3Kicker">Creative Network</p>
+            <h3 class="service-title" data-i18n="communityC3Title">Photography & Styling Partners</h3>
+            <p class="service-text" data-i18n="communityC3Text">Support for photographers, stylists, salons, and ecosystem contributors through shared opportunities.</p>
+          </article>
+          <article class="service-card">
+            <p class="service-kicker" data-i18n="communityC4Kicker">Digital Kiosk</p>
+            <h3 class="service-title" data-i18n="communityC4Title">Online Magazine Showcase</h3>
+            <p class="service-text" data-i18n="communityC4Text">DUNEX digital kiosks showcasing partner portfolios, products, and services with ongoing visibility.</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="tab-panel" id="future-panel" role="tabpanel" aria-label="Our Unique Value" data-i18n-aria-label="tabFuture">
+      <article class="panel-shell">
+        <h2 class="panel-title" data-i18n="futureTitle">The DUNEX Unique Value Proposition</h2>
+
+        <div class="uvp-accordion" id="uvp-accordion">
+          <article class="uvp-tile active" data-uvp="caseStudies">
+            <button class="uvp-toggle" type="button">
+              <h3 class="uvp-title" data-i18n="futureF1Title">Case Studies</h3>
+              <span class="uvp-chevron">v</span>
+            </button>
+            <div class="uvp-content">
+              <p class="uvp-text" data-i18n="futureF1Text">Real life examples of individuals, companies and organisations we support and have helped. On click, an elegant hero carousel appears below, ready for a future mix of videos and images.</p>
+            </div>
+          </article>
+
+          <article class="uvp-tile" data-uvp="eventCalendar">
+            <button class="uvp-toggle" type="button">
+              <h3 class="uvp-title" data-i18n="futureF2Title">Event Calendar</h3>
+              <span class="uvp-chevron">v</span>
+            </button>
+            <div class="uvp-content">
+              <p class="uvp-text" data-i18n="futureF2Text">A very elegant fashion-themed calendar for years 2026 and 2027, outlining events scheduled, delivered, and upcoming. On click, the hero carousel renders media from this section bank.</p>
+            </div>
+          </article>
+
+          <article class="uvp-tile" data-uvp="partnerProgram">
+            <button class="uvp-toggle" type="button">
+              <h3 class="uvp-title" data-i18n="futureF3Title">Partner Program</h3>
+              <span class="uvp-chevron">v</span>
+            </button>
+            <div class="uvp-content">
+              <p class="uvp-text" data-i18n="futureF3Text">In this same hero carousel format, relevant tile text copy can be updated to compel companies and organisations to endorse the DUNEX cause.</p>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel-shell value-carousel-shell">
+          <div class="carousel-stage" id="uvp-carousel"></div>
+          <div class="carousel-nav"><span class="carousel-counter" id="uvp-counter">Random reel</span></div>
+          <div class="carousel-progress" aria-hidden="true"><div class="carousel-progress-fill" id="uvp-progress-fill"></div></div>
+        </article>
+      </article>
+    </section>
+
+    <p class="footnote" data-i18n="footnote">DUNEX | A circular growth model powered by expertise, creativity, and community impact.</p>
+  </main>
+
+  <script>
+    const translations = {
+      en: {
+        pageTitle: "DUNEX | 360 Growth Journey",
+        brandPill: "DUNES x EOEX LLP Venture",
+        brandTitle: "DUNEX - The DUNES EXPERIENCE",
+        brandSubtitle: "A 360 growth journey where DUNEX engages professionals and companies at their current stage, builds trust through transparency and proven expertise, and supports measurable progress toward their goals through training, creativity, technology, and community.",
+        metaHqLabel: "Headquarters",
+        metaHqValue: "The Base, St Pierre de Corps, near Tours (France)",
+        metaModelLabel: "Operating Model",
+        metaModelValue: "Circular client development, 12-stage clock journey",
+        metaMissionLabel: "Core Mission",
+        metaMissionValue: "Growth and visibility for people, brands, and local ecosystems",
+        tabsAria: "DUNEX sections",
+        tabJourney: "360 Journey",
+        tabServices: "Services & Expertise",
+        tabCommunity: "Community Ecosystem",
+        tabFuture: "Our Unique Value",
+        diagramTitle: "Clock-Based Circular Journey",
+        diagramCaption: "Each step is positioned as an hour on the clock, reflecting a continuous cycle of trust, activation, visibility, and long-term value creation.",
+        chartAria: "DUNEX 12-hour journey diagram",
+        selectedStage: "Selected Stage",
+        legendConsulting: "Consulting & Strategy",
+        legendEvents: "Events & Experience",
+        legendCreative: "Creative Ecosystem",
+        legendVisibility: "Visibility & Network",
+        servicesTitle: "Core Service Pillars",
+        servicesP1Kicker: "Pillar 01",
+        servicesP1Title: "Digital & AI Advisory",
+        servicesP1Text: "Free masterclasses at client premises or at The Base, then customized support in digital marketing, social media strategy, and practical AI adoption to optimize budgets and increase revenue impact.",
+        servicesP2Kicker: "Pillar 02",
+        servicesP2Title: "Fashion & Events Production",
+        servicesP2Text: "Inclusive runway programs, corporate event support, photo and video studio production, and branded experiences that help organizations connect with modern audiences.",
+        servicesP3Kicker: "Pillar 03",
+        servicesP3Title: "Wellness & Team Activation",
+        servicesP3Text: "Afterwork gatherings, fitness bootcamps, and wellness-oriented activations that strengthen employee engagement while building authentic relationships across partner networks.",
+        communityTitle: "Ecosystem Visibility Engine",
+        communityC1Kicker: "Models Network",
+        communityC1Title: "Professional Talent Pool",
+        communityC1Text: "National and international model networks supporting runway events and campaign reliability.",
+        communityC2Kicker: "Designers Network",
+        communityC2Title: "Local Fashion Designers",
+        communityC2Text: "Structured promotion channels to make local creations visible and discoverable.",
+        communityC3Kicker: "Creative Network",
+        communityC3Title: "Photography & Styling Partners",
+        communityC3Text: "Support for photographers, stylists, salons, and ecosystem contributors through shared opportunities.",
+        communityC4Kicker: "Digital Kiosk",
+        communityC4Title: "Online Magazine Showcase",
+        communityC4Text: "DUNEX digital kiosks showcasing partner portfolios, products, and services with ongoing visibility.",
+        futureTitle: "The DUNEX Unique Value Proposition",
+        futureF1Title: "Case Studies",
+        futureF1Text: "Real life examples of individuals, companies and organisations we support and have helped. On click, an elegant hero carousel appears below, ready for a future mix of videos and images.",
+        futureF2Title: "Event Calendar",
+        futureF2Text: "A very elegant fashion-themed calendar for years 2026 and 2027, outlining events scheduled, delivered, and upcoming. On click, the hero carousel renders media from this section bank.",
+        futureF3Title: "Partner Program",
+        futureF3Text: "In this same hero carousel format, relevant tile text copy can be updated to compel companies and organisations to endorse the DUNEX cause.",
+        footnote: "DUNEX | A circular growth model powered by expertise, creativity, and community impact.",
+        carouselCounter: "Random reel",
+        chartCenterBottom: "360 GROWTH JOURNEY",
+        chartHourPrefix: "Hour",
+        steps: [
+          { hour: 12, title: "Target client today", short: "Client starting point", color: "#2f3445", detail: "A company at its current stage with defined goals, ambitions, and growth challenges." },
+          { hour: 1, title: "Free digital marketing consulting masterclass", short: "Digital marketing masterclass", color: "#b8485e", detail: "A scheduled masterclass at client premises or at The Base in St Pierre de Corps near Tours." },
+          { hour: 2, title: "Free AI consulting masterclass", short: "AI masterclass", color: "#b8485e", detail: "Practical AI advisory sessions at client location or The Base to accelerate operational adoption." },
+          { hour: 3, title: "Dunes Training Ground service showcase", short: "Training ground showcase", color: "#1f7d8c", detail: "Presentation of physical training, wellness workshops, corporate events, and studio capabilities." },
+          { hour: 4, title: "Inclusive runway events and sponsorship", short: "Inclusive runway events", color: "#1f7d8c", detail: "Year-round fashion runways supporting communities and social responsibility with sponsor benefit packages." },
+          { hour: 5, title: "Professional model and modelling agency network", short: "Models and agencies", color: "#2f3445", detail: "National and international model pools plus modelling agency relationships for runway reliability and high-quality marketing campaigns." },
+          { hour: 6, title: "Fashion designers, schools, and academies visibility support", short: "Designers and schools", color: "#c58a3a", detail: "Support initiatives making local designers, fashion schools, and academies visible and discoverable." },
+          { hour: 7, title: "Ecosystem support for photographers and stylists", short: "Creative ecosystem support", color: "#c58a3a", detail: "Promotion of photographers, stylists, salons, and core fashion contributors in the local ecosystem." },
+          { hour: 8, title: "Tech-enabled marketing campaign support", short: "Tech-powered campaigns", color: "#b8485e", detail: "IT, social media, and AI expertise to build appealing next-generation campaigns and drive sales." },
+          { hour: 9, title: "Afterwork networking at The Base", short: "Afterwork events", color: "#1f7d8c", detail: "Regular afterwork parties with curated artistic entertainment for informal networking and collaboration." },
+          { hour: 10, title: "Fitness bootcamps for prospects and clients", short: "Fitness bootcamps", color: "#1f7d8c", detail: "Recurring bootcamps delivered by The Base to support wellbeing and shared team momentum." },
+          { hour: 11, title: "Online digital kiosk and magazine showcase", short: "Digital kiosk", color: "#2f3445", detail: "DUNEX online magazine and kiosks highlighting client portfolios, products, and services." }
+        ]
+      },
+      fr: {
+        pageTitle: "DUNEX | Parcours de Croissance 360",
+        brandPill: "Venture LLP DUNES x EOEX",
+        brandTitle: "DUNEX - L'EXPERIENCE DUNES",
+        brandSubtitle: "Un parcours de croissance 360 ou DUNEX engage les professionnels et les entreprises a leur stade actuel, construit la confiance grace a la transparence et une expertise prouvee, puis soutient une progression mesurable vers leurs objectifs via la formation, la creativite, la technologie et la communaute.",
+        metaHqLabel: "Siege",
+        metaHqValue: "The Base, Saint-Pierre-des-Corps, pres de Tours (France)",
+        metaModelLabel: "Modele operationnel",
+        metaModelValue: "Developpement client circulaire, parcours en 12 etapes",
+        metaMissionLabel: "Mission centrale",
+        metaMissionValue: "Croissance et visibilite pour les personnes, les marques et les ecosystemes locaux",
+        tabsAria: "Sections DUNEX",
+        tabJourney: "Parcours 360",
+        tabServices: "Services et Expertise",
+        tabCommunity: "Ecosysteme Communaute",
+        tabFuture: "Notre Valeur Unique",
+        diagramTitle: "Parcours Circulaire en Horloge",
+        diagramCaption: "Chaque etape est placee comme une heure sur l'horloge, reflet d'un cycle continu de confiance, d'activation, de visibilite et de creation de valeur durable.",
+        chartAria: "Schema du parcours DUNEX en 12 heures",
+        selectedStage: "Etape selectionnee",
+        legendConsulting: "Conseil et Strategie",
+        legendEvents: "Evenements et Experience",
+        legendCreative: "Ecosysteme Creatif",
+        legendVisibility: "Visibilite et Reseau",
+        servicesTitle: "Piliers de Services",
+        servicesP1Kicker: "Pilier 01",
+        servicesP1Title: "Conseil Digital et IA",
+        servicesP1Text: "Masterclasses gratuites chez le client ou a The Base, puis accompagnement personnalise en marketing digital, strategie reseaux sociaux et adoption pratique de l'IA pour optimiser les budgets et augmenter l'impact revenu.",
+        servicesP2Kicker: "Pilier 02",
+        servicesP2Title: "Production Mode et Evenementielle",
+        servicesP2Text: "Programmes de defiles inclusifs, accompagnement d'evenements corporate, production studio photo/video et experiences de marque pour connecter les organisations aux audiences modernes.",
+        servicesP3Kicker: "Pilier 03",
+        servicesP3Title: "Bien-etre et Activation d'Equipes",
+        servicesP3Text: "Afterworks, bootcamps fitness et activations bien-etre pour renforcer l'engagement des collaborateurs et les relations dans le reseau partenaire.",
+        communityTitle: "Moteur de Visibilite Ecosystemique",
+        communityC1Kicker: "Reseau de Modeles",
+        communityC1Title: "Viviers de Talents Professionnels",
+        communityC1Text: "Reseaux nationaux et internationaux de modeles pour fiabiliser les defiles et campagnes.",
+        communityC2Kicker: "Reseau de Createurs",
+        communityC2Title: "Createurs de Mode Locaux",
+        communityC2Text: "Canaux de promotion structures pour rendre les creations locales visibles et decouvrables.",
+        communityC3Kicker: "Reseau Creatif",
+        communityC3Title: "Partenaires Photo et Stylisme",
+        communityC3Text: "Accompagnement des photographes, stylistes, salons et contributeurs via des opportunites partagees.",
+        communityC4Kicker: "Kiosque Digital",
+        communityC4Title: "Vitrine Magazine en Ligne",
+        communityC4Text: "Kiosques et magazine en ligne DUNEX mettant en avant portfolios, produits et services des partenaires.",
+        futureTitle: "La Proposition de Valeur Unique DUNEX",
+        futureF1Title: "Etudes de Cas",
+        futureF1Text: "Exemples concrets de personnes, entreprises et organisations que nous accompagnons et aidons. Au clic, un hero carousel elegant apparait dessous, pret pour un futur mix de videos et d'images.",
+        futureF2Title: "Calendrier Evenements",
+        futureF2Text: "Un calendrier tres elegant, inspire de la mode, pour 2026 et 2027, presentant les evenements planifies, realises et a venir. Au clic, le hero carousel affiche la banque media de cette section.",
+        futureF3Title: "Programme Partenaire",
+        futureF3Text: "Dans ce meme format de hero carousel, le texte de la tuile pourra etre adapte pour convaincre entreprises et organisations d'endosser la cause DUNEX.",
+        footnote: "DUNEX | Un modele circulaire de croissance propulse par l'expertise, la creativite et l'impact communautaire.",
+        carouselCounter: "Reel aleatoire",
+        chartCenterBottom: "PARCOURS DE CROISSANCE 360",
+        chartHourPrefix: "Heure",
+        steps: [
+          { hour: 12, title: "Client cible aujourd'hui", short: "Point de depart client", color: "#2f3445", detail: "Une entreprise a son stade actuel avec ses objectifs, ambitions et enjeux de croissance." },
+          { hour: 1, title: "Masterclass gratuite de conseil en marketing digital", short: "Masterclass marketing digital", color: "#b8485e", detail: "Masterclass planifiee chez le client ou a The Base a Saint-Pierre-des-Corps pres de Tours." },
+          { hour: 2, title: "Masterclass gratuite de conseil en IA", short: "Masterclass IA", color: "#b8485e", detail: "Sessions de conseil IA pratiques chez le client ou a The Base pour accelerer l'adoption operationnelle." },
+          { hour: 3, title: "Presentation des services du Dunes Training Ground", short: "Presentation training ground", color: "#1f7d8c", detail: "Mise en avant des entrainements physiques, ateliers bien-etre, evenements corporate et capacites studio." },
+          { hour: 4, title: "Defiles inclusifs et sponsoring", short: "Defiles inclusifs", color: "#1f7d8c", detail: "Defiles annuels soutenant les communautes et la responsabilite sociale avec packages sponsors." },
+          { hour: 5, title: "Reseau de modeles professionnels et d'agences de mannequins", short: "Modeles et agences", color: "#2f3445", detail: "Viviers nationaux et internationaux de modeles ainsi que des relations avec des agences pour des defiles fiables et des campagnes de qualite." },
+          { hour: 6, title: "Visibilite pour createurs, ecoles et academies de mode", short: "Createurs et ecoles", color: "#c58a3a", detail: "Initiatives de soutien pour rendre les designers locaux, ecoles et academies de mode visibles et decouvrables." },
+          { hour: 7, title: "Soutien ecosysteme photographes et stylistes", short: "Soutien ecosysteme creatif", color: "#c58a3a", detail: "Promotion des photographes, stylistes, salons et acteurs cles de l'ecosysteme mode local." },
+          { hour: 8, title: "Support campagnes marketing techno-augmentees", short: "Campagnes tech", color: "#b8485e", detail: "Expertise IT, social media et IA pour concevoir des campagnes attractives et stimuler les ventes." },
+          { hour: 9, title: "Afterworks de reseautage a The Base", short: "Evenements afterwork", color: "#1f7d8c", detail: "Afterworks reguliers avec animations artistiques pour favoriser un reseautage convivial." },
+          { hour: 10, title: "Bootcamps fitness pour prospects et clients", short: "Bootcamps fitness", color: "#1f7d8c", detail: "Bootcamps recurrents proposes par The Base pour soutenir bien-etre et dynamique collective." },
+          { hour: 11, title: "Kiosque digital et magazine en ligne", short: "Kiosque digital", color: "#2f3445", detail: "Magazine et kiosques en ligne DUNEX mettant en avant portfolios, produits et services clients." }
+        ]
+      }
+    };
+
+    let currentLang = "en";
+    let journeySteps = translations[currentLang].steps;
+    let selectedHour = 12;
+
+    const narrativeByHour = {
+      en: {
+        12: "This is where the relationship begins: a real company, with real constraints, real ambition, and real pressure to grow. DUNEX starts by listening deeply, mapping current capabilities, identifying hidden opportunities, and aligning every future action with measurable business outcomes.",
+        1: "At hour 1, DUNEX opens the door through a free digital marketing masterclass delivered at the client site or at The Base. This strategic session clarifies audience positioning, channel priorities, content direction, and performance levers so the company can move from scattered effort to intentional digital momentum.",
+        2: "At hour 2, the conversation expands into practical AI consulting. We demystify AI, identify high-impact use cases, and translate innovation into concrete workflows that save time, improve decision quality, and strengthen competitiveness without unnecessary complexity.",
+        3: "At hour 3, we immerse partners in the Dunes Training Ground universe: physical performance, wellness workshops, corporate event capabilities, and professional studio production. This stage reveals how brand value can be activated through experience, not only through advertising.",
+        4: "At hour 4, inclusive runway events become a visibility engine and a social impact platform. Partner companies can endorse these initiatives through tailored sponsorship packages that convert values into public presence, credibility, and meaningful community alignment.",
+        5: "At hour 5, DUNEX mobilizes its national and international model network together with modelling agencies to guarantee execution quality and visual consistency. For brands, this means dependable talent pipelines, elevated campaign aesthetics, stronger casting standards, and greater recognition across events and media activations.",
+        6: "At hour 6, we support local fashion designers alongside fashion design schools and academies with visibility pathways that turn creative excellence into market awareness. Through curated showcases and ecosystem exposure, both emerging creators and institutions become discoverable by audiences, collaborators, recruiters, and commercial partners.",
+        7: "At hour 7, DUNEX strengthens the full creative chain by promoting photographers, stylists, hair salons, and technical contributors. The result is a living ecosystem where every specialist gains exposure, and every client benefits from a richer, more professional production environment.",
+        8: "At hour 8, technology and creativity converge into high-performance campaigns. Leveraging deep expertise in IT, digital marketing, social media, and AI, DUNEX helps brands craft next-generation narratives that maximize budget efficiency, improve engagement quality, and accelerate sales growth.",
+        9: "At hour 9, regular afterwork events at The Base create informal but high-value business proximity. Teams, clients, and partners connect in a curated artistic atmosphere that fosters trust, cross-pollination of ideas, and long-term collaboration.",
+        10: "At hour 10, fitness bootcamps reinforce health, energy, and team cohesion for prospects and clients. This stage transforms brand relationships into shared routines and positive culture, anchoring performance in wellbeing.",
+        11: "At hour 11, DUNEX amplifies partner visibility through its online digital kiosk and magazine showcase. Client portfolios, products, and services gain a persistent storytelling space that extends event impact into always-on digital discoverability."
+      },
+      fr: {
+        12: "C'est ici que la relation commence: une entreprise reelle, avec des contraintes reelles, des ambitions fortes et une pression concrete de croissance. DUNEX demarre par une ecoute active, un diagnostic precis des capacites actuelles, puis l'alignement de chaque action future sur des resultats mesurables.",
+        1: "A l'heure 1, DUNEX ouvre la dynamique avec une masterclass gratuite de marketing digital, sur site client ou a The Base. Cette session structure le positionnement, les canaux prioritaires, la ligne de contenu et les leviers de performance pour passer d'actions dispersees a une traction digitale coherente.",
+        2: "A l'heure 2, le parcours evolue vers un conseil IA concret et actionnable. Nous clarifions les usages a fort impact, traduisons l'innovation en processus operationnels et aidons l'entreprise a gagner en productivite, pertinence decisionnelle et avantage concurrentiel.",
+        3: "A l'heure 3, les partenaires decouvrent l'univers du Dunes Training Ground: entrainement physique, ateliers bien-etre, production d'evenements corporate et capacites studio. Cette etape montre comment l'experience terrain renforce la valeur de marque.",
+        4: "A l'heure 4, les defiles inclusifs deviennent a la fois un moteur de visibilite et un engagement socie tal. Les entreprises partenaires peuvent soutenir ces initiatives via des formules de sponsoring adaptees, avec des benefices concrets en image, notoriete et impact local.",
+        5: "A l'heure 5, DUNEX active son reseau national et international de modeles en lien avec des agences de mannequins pour garantir qualite d'execution et coherence visuelle. Les marques gagnent un vivier fiable, des standards de casting plus eleves, une image plus premium et une meilleure reconnaissance sur l'ensemble de leurs activations.",
+        6: "A l'heure 6, nous accompagnons les createurs locaux ainsi que les ecoles et academies de mode pour transformer leur talent en visibilite durable. Grace a des mises en avant ciblees et des relais ecosystemiques, les creations, les promotions et les institutions deviennent plus accessibles, identifiables et attractives pour de nouveaux partenaires.",
+        7: "A l'heure 7, DUNEX valorise toute la chaine creative: photographes, stylistes, salons et autres metiers essentiels. L'ecosysteme devient plus fort, plus visible et plus professionnel, au benefice direct de la qualite des projets clients.",
+        8: "A l'heure 8, technologie et creativite s'unissent pour produire des campagnes a fort rendement. En mobilisant l'expertise IT, social media, marketing digital et IA, DUNEX aide les marques a mieux engager la nouvelle generation tout en optimisant les budgets et la conversion commerciale.",
+        9: "A l'heure 9, les afterworks reguliers a The Base installent une proximite business humaine et durable. Dans une atmosphere artistique et conviviale, collaborateurs, clients et partenaires creent des liens utiles qui accelerent la cooperation.",
+        10: "A l'heure 10, les bootcamps fitness soutiennent l'energie collective, la cohesion d'equipe et le bien-etre. Cette etape ancre la performance dans une dynamique positive partagee entre prospects, clients et reseau DUNEX.",
+        11: "A l'heure 11, DUNEX prolonge la visibilite via son kiosque digital et sa vitrine magazine en ligne. Les portfolios, produits et services clients beneficient d'un espace editorial continu, transformant l'impact evenementiel en presence digitale durable."
+      }
+    };
+
+    const tabs = document.querySelectorAll(".tab-btn");
+    const panels = {
+      journey: document.getElementById("journey-panel"),
+      services: document.getElementById("services-panel"),
+      community: document.getElementById("community-panel"),
+      future: document.getElementById("future-panel")
+    };
+    const langButtons = document.querySelectorAll(".lang-btn");
+    const i18nNodes = document.querySelectorAll("[data-i18n]");
+    const i18nAriaNodes = document.querySelectorAll("[data-i18n-aria-label]");
+    const focusCard = document.getElementById("focus-card");
+    const heroCarousel = document.getElementById("hero-carousel");
+    const carouselCounter = document.getElementById("carousel-counter");
+    const carouselProgressFill = document.getElementById("carousel-progress-fill");
+    const uvpTiles = document.querySelectorAll(".uvp-tile");
+    const uvpCarousel = document.getElementById("uvp-carousel");
+    const uvpCounter = document.getElementById("uvp-counter");
+    const uvpProgressFill = document.getElementById("uvp-progress-fill");
+    let focusTransitionTimer;
+    let carouselTimer;
+    let carouselProgressTimer;
+    let activeCarouselSlot = 0;
+    let carouselOrder = [];
+    let carouselPointer = 0;
+    let carouselCycle = 0;
+    const carouselDuration = 10000;
+    let uvpTimer;
+    let uvpProgressTimer;
+    let uvpOrder = [];
+    let uvpPointer = 0;
+    let uvpActiveSlot = 0;
+    let activeUvpKey = "caseStudies";
+    const uvpDuration = 10000;
+
+    const reelFiles = [...new Set([
+      "10150923-uhd_3840_2160_24fps.mp4",
+      "10211616-hd_4096_2160_25fps.mp4",
+      "10503922-hd_1920_1080_30fps.mp4",
+      "10547316-uhd_4096_2160_25fps.mp4",
+      "10617244-uhd_4096_2160_25fps.mp4",
+      "13612108_3840_2160_25fps.mp4",
+      "14249418_1920_1080_25fps.mp4",
+      "14471949_1920_1080_30fps.mp4",
+      "18092440-hd_1920_1080_30fps.mp4",
+      "5391326-uhd_3840_2160_30fps.mp4",
+      "5461004-uhd_3840_2160_24fps.mp4",
+      "5461026-uhd_3840_2160_24fps.mp4",
+      "5935462-uhd_3840_2160_25fps.mp4",
+      "6153576-uhd_4096_2160_25fps.mp4",
+      "6248575-uhd_3840_2160_25fps.mp4",
+      "6248583-uhd_3840_2160_25fps.mp4",
+      "6248590-uhd_3840_2160_25fps.mp4",
+      "7475254-hd_1920_1080_25fps.mp4",
+      "6646673-hd_1920_1080_24fps.mp4",
+      "6762614-uhd_2544_1440_25fps.mp4",
+      "6893992-uhd_3840_2160_25fps.mp4",
+      "6951813-uhd_3840_2160_25fps.mp4",
+      "6952021-uhd_3840_2160_25fps.mp4",
+      "6964583-hd_1920_1080_25fps.mp4",
+      "7048710-uhd_3840_2160_30fps.mp4",
+      "7312150-hd_1920_1080_25fps.mp4",
+      "7313742-hd_1920_1080_25fps.mp4",
+      "8132020-hd_1920_1080_25fps.mp4",
+      "9413581-hd_1920_1080_25fps.mp4",
+      "9465320-uhd_3840_2160_25fps.mp4"
+    ])];
+
+    const uvpMediaBank = {
+      caseStudies: [
+        { type: "video", src: "reelz/10503922-hd_1920_1080_30fps.mp4", caption: { en: "Case Studies | Real outcomes from people, companies, and organisations.", fr: "Etudes de Cas | Resultats reels pour personnes, entreprises et organisations." } },
+        { type: "image", background: "linear-gradient(130deg, #201f27, #3d4b63 52%, #7c5a3c)", caption: { en: "Case Studies | Hero carousel ready for your future video and image library.", fr: "Etudes de Cas | Hero carousel pret pour votre future bibliotheque video et image." } },
+        { type: "video", src: "reelz/6646673-hd_1920_1080_24fps.mp4", caption: { en: "Case Studies | Stories of measurable transformation and growth.", fr: "Etudes de Cas | Histoires de transformation et de croissance mesurable." } }
+      ],
+      eventCalendar: [
+        { type: "image", background: "linear-gradient(140deg, #1b1f2b, #3b2950 55%, #6a4730)", caption: { en: "Event Calendar 2026-2027 | Scheduled, delivered, and upcoming milestones.", fr: "Calendrier 2026-2027 | Jalons planifies, realises et a venir." } },
+        { type: "video", src: "reelz/7048710-uhd_3840_2160_30fps.mp4", caption: { en: "Event Calendar | Fashion-themed timeline experiences in motion.", fr: "Calendrier Evenements | Experiences de planning mode en mouvement." } },
+        { type: "image", background: "linear-gradient(135deg, #162027, #364a52 46%, #8f6b45)", caption: { en: "Event Calendar | Dedicated media bank for this section only.", fr: "Calendrier Evenements | Banque media dediee uniquement a cette section." } }
+      ],
+      partnerProgram: [
+        { type: "video", src: "reelz/6153576-uhd_4096_2160_25fps.mp4", caption: { en: "Partner Program | Endorse the DUNEX cause with visible, tangible value.", fr: "Programme Partenaire | Endossez la cause DUNEX avec une valeur visible et tangible." } },
+        { type: "image", background: "linear-gradient(140deg, #211a1e, #3f2e3a 56%, #73583b)", caption: { en: "Partner Program | Future compelling endorsement copy can be injected here.", fr: "Programme Partenaire | Le futur texte de conviction pourra etre injecte ici." } },
+        { type: "video", src: "reelz/6893992-uhd_3840_2160_25fps.mp4", caption: { en: "Partner Program | Campaign-grade media frame for sponsor storytelling.", fr: "Programme Partenaire | Cadre media premium pour le storytelling sponsor." } }
+      ]
+    };
+
+    function t(key) {
+      return translations[currentLang][key] || key;
+    }
+
+    function applyI18n() {
+      document.documentElement.lang = currentLang;
+      document.title = t("pageTitle");
+      i18nNodes.forEach((node) => {
+        node.textContent = t(node.getAttribute("data-i18n"));
+      });
+      i18nAriaNodes.forEach((node) => {
+        node.setAttribute("aria-label", t(node.getAttribute("data-i18n-aria-label")));
+      });
+    }
+
+    function shuffleArray(items) {
+      const clone = [...items];
+      for (let index = clone.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [clone[index], clone[swapIndex]] = [clone[swapIndex], clone[index]];
+      }
+      return clone;
+    }
+
+    function getCarouselCaptions() {
+      return (translations[currentLang] || translations.en).steps.map((step) => `${t("chartHourPrefix")} ${step.hour} | ${step.title}`);
+    }
+
+    function extractReelResolution(fileName) {
+      // Resolve the true WIDTH_HEIGHT tokens from names like *_1920_1080_25fps.mp4.
+      const fpsMatch = fileName.match(/_(\d{3,4})_(\d{3,4})_(\d{2,3})fps/i);
+      if (fpsMatch) {
+        const width = Number(fpsMatch[1]);
+        const height = Number(fpsMatch[2]);
+        if (width && height) {
+          return { width, height };
+        }
+      }
+
+      // Fallback for uncommon names without explicit fps suffix.
+      const fallbackMatch = fileName.match(/_(\d{3,4})_(\d{3,4})(?:_|\.)/);
+      if (fallbackMatch) {
+        const width = Number(fallbackMatch[1]);
+        const height = Number(fallbackMatch[2]);
+        if (width && height) {
+          return { width, height };
+        }
+      }
+
+      return null;
+    }
+
+    function getReelOrientation(fileName) {
+      const resolution = extractReelResolution(fileName);
+      if (!resolution) {
+        return "landscape";
+      }
+
+      const ratio = resolution.width / resolution.height;
+      if (ratio < 0.92) {
+        return "portrait";
+      }
+      if (ratio > 1.08) {
+        return "landscape";
+      }
+      return "square";
+    }
+
+    function getReelAspectRatio(fileName) {
+      const resolution = extractReelResolution(fileName);
+      if (!resolution) {
+        return 16 / 9;
+      }
+
+      return resolution.width / resolution.height;
+    }
+
+    function biasedShuffleReels(items) {
+      const portrait = shuffleArray(items.filter((item) => item.orientation === "portrait"));
+      const nonPortrait = shuffleArray(items.filter((item) => item.orientation !== "portrait"));
+      const ordered = [];
+      let previousOrientation = "";
+
+      while (portrait.length || nonPortrait.length) {
+        if (previousOrientation === "portrait" && nonPortrait.length) {
+          const nextItem = nonPortrait.shift();
+          ordered.push(nextItem);
+          previousOrientation = nextItem.orientation;
+          continue;
+        }
+
+        const portraitPressure = portrait.length > nonPortrait.length + 1;
+        if ((portraitPressure || (!ordered.length && portrait.length && nonPortrait.length)) && portrait.length) {
+          const nextPortrait = portrait.shift();
+          ordered.push(nextPortrait);
+          previousOrientation = nextPortrait.orientation;
+          continue;
+        }
+
+        if (nonPortrait.length) {
+          const nextItem = nonPortrait.shift();
+          ordered.push(nextItem);
+          previousOrientation = nextItem.orientation;
+          continue;
+        }
+
+        const nextPortrait = portrait.shift();
+        ordered.push(nextPortrait);
+        previousOrientation = nextPortrait.orientation;
+      }
+
+      return ordered;
+    }
+
+    const minWideAspect = 1.2;
+    const eligibleReelFiles = reelFiles.filter((fileName) => getReelAspectRatio(fileName) >= minWideAspect);
+
+    function buildCarouselOrder() {
+      const captions = shuffleArray(getCarouselCaptions());
+      const mapped = eligibleReelFiles.map((fileName, index) => ({
+        fileName,
+        orientation: getReelOrientation(fileName),
+        caption: captions[index % captions.length]
+      }));
+      carouselOrder = biasedShuffleReels(mapped);
+      carouselPointer = 0;
+      carouselCycle += 1;
+    }
+
+    function nextCarouselItem() {
+      if (!carouselOrder.length || carouselPointer >= carouselOrder.length) {
+        buildCarouselOrder();
+      }
+
+      const item = carouselOrder[carouselPointer];
+      carouselPointer += 1;
+      return item;
+    }
+
+    function updateCarouselCounter() {
+      carouselCounter.textContent = `${t("carouselCounter")} ${Math.min(carouselPointer, eligibleReelFiles.length)} / ${eligibleReelFiles.length}`;
+    }
+
+    function startCarouselProgress() {
+      if (carouselProgressTimer) {
+        clearInterval(carouselProgressTimer);
+      }
+
+      const startedAt = performance.now();
+      carouselProgressFill.style.transform = "scaleX(0)";
+
+      carouselProgressTimer = setInterval(() => {
+        const elapsed = Math.min(performance.now() - startedAt, carouselDuration);
+        carouselProgressFill.style.transform = `scaleX(${elapsed / carouselDuration})`;
+
+        if (elapsed >= carouselDuration) {
+          clearInterval(carouselProgressTimer);
+        }
+      }, 100);
+    }
+
+    function createUvpSlot() {
+      const slot = document.createElement("article");
+      slot.className = "carousel-slide";
+      slot.innerHTML = `
+        <div class="carousel-media"></div>
+        <div class="carousel-copy">
+          <span class="carousel-caption"></span>
+        </div>
+      `;
+      return slot;
+    }
+
+    function getUvpItems() {
+      return uvpMediaBank[activeUvpKey] || [];
+    }
+
+    function buildUvpOrder() {
+      uvpOrder = shuffleArray(getUvpItems());
+      uvpPointer = 0;
+    }
+
+    function nextUvpItem() {
+      if (!uvpOrder.length || uvpPointer >= uvpOrder.length) {
+        buildUvpOrder();
+      }
+
+      const item = uvpOrder[uvpPointer];
+      uvpPointer += 1;
+      return item;
+    }
+
+    function updateUvpCounter() {
+      const total = getUvpItems().length;
+      uvpCounter.textContent = `${t("carouselCounter")} ${Math.min(uvpPointer, total)} / ${total}`;
+    }
+
+    function startUvpProgress() {
+      if (uvpProgressTimer) {
+        clearInterval(uvpProgressTimer);
+      }
+
+      const startedAt = performance.now();
+      uvpProgressFill.style.transform = "scaleX(0)";
+      uvpProgressTimer = setInterval(() => {
+        const elapsed = Math.min(performance.now() - startedAt, uvpDuration);
+        uvpProgressFill.style.transform = `scaleX(${elapsed / uvpDuration})`;
+        if (elapsed >= uvpDuration) {
+          clearInterval(uvpProgressTimer);
+        }
+      }, 100);
+    }
+
+    function populateUvpSlot(slot, item) {
+      const media = slot.querySelector(".carousel-media");
+      const caption = slot.querySelector(".carousel-caption");
+
+      if (item.type === "video") {
+        media.innerHTML = `<video autoplay muted playsinline loop preload="metadata"><source src="${item.src}" type="video/mp4" /></video>`;
+      } else {
+        media.innerHTML = "";
+        media.style.background = item.background;
+      }
+
+      caption.textContent = item.caption[currentLang] || item.caption.en;
+
+      const video = media.querySelector("video");
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      }
+    }
+
+    function showNextUvpItem(immediate = false) {
+      const slots = uvpCarousel.querySelectorAll(".carousel-slide");
+      const nextSlotIndex = immediate ? uvpActiveSlot : 1 - uvpActiveSlot;
+      const incoming = slots[nextSlotIndex];
+      const outgoing = slots[uvpActiveSlot];
+      const item = nextUvpItem();
+
+      populateUvpSlot(incoming, item);
+
+      if (immediate) {
+        incoming.classList.add("active");
+      } else {
+        incoming.classList.add("active");
+        outgoing.classList.remove("active");
+        const outgoingVideo = outgoing.querySelector("video");
+        if (outgoingVideo) {
+          setTimeout(() => outgoingVideo.pause(), 1600);
+        }
+      }
+
+      uvpActiveSlot = nextSlotIndex;
+      updateUvpCounter();
+      startUvpProgress();
+    }
+
+    function scheduleUvpCarousel() {
+      if (uvpTimer) {
+        clearInterval(uvpTimer);
+      }
+      uvpTimer = setInterval(() => showNextUvpItem(), uvpDuration);
+    }
+
+    function renderUvpCarousel() {
+      if (!uvpCarousel.children.length) {
+        uvpCarousel.appendChild(createUvpSlot());
+        uvpCarousel.appendChild(createUvpSlot());
+      }
+
+      uvpCarousel.querySelectorAll(".carousel-slide").forEach((slot) => {
+        slot.classList.remove("active");
+        const video = slot.querySelector("video");
+        if (video) {
+          video.pause();
+        }
+      });
+
+      buildUvpOrder();
+      uvpActiveSlot = 0;
+      showNextUvpItem(true);
+      scheduleUvpCarousel();
+    }
+
+    function activateUvpTile(key) {
+      activeUvpKey = key;
+      uvpTiles.forEach((tile) => {
+        tile.classList.toggle("active", tile.dataset.uvp === key);
+      });
+      renderUvpCarousel();
+    }
+
+    function createCarouselSlot() {
+      const slot = document.createElement("article");
+      slot.className = "carousel-slide";
+      slot.innerHTML = `
+        <div class="carousel-media"></div>
+        <div class="carousel-copy">
+          <span class="carousel-caption"></span>
+        </div>
+      `;
+      return slot;
+    }
+
+    function populateCarouselSlot(slot, item) {
+      const media = slot.querySelector(".carousel-media");
+      const caption = slot.querySelector(".carousel-caption");
+      const videoPath = `reelz/${encodeURIComponent(item.fileName)}`;
+
+      media.innerHTML = `<video autoplay muted playsinline loop preload="metadata"><source src="${videoPath}" type="video/mp4" /></video>`;
+      caption.textContent = item.caption;
+
+      const video = media.querySelector("video");
+      if (video) {
+        video.addEventListener("loadedmetadata", () => {
+          const width = video.videoWidth;
+          const height = video.videoHeight;
+          video.classList.remove("is-portrait", "is-landscape", "is-square");
+
+          if (!width || !height) {
+            video.classList.add("is-landscape");
+            return;
+          }
+
+          const ratio = width / height;
+          if (ratio < 0.92) {
+            video.classList.add("is-portrait");
+          } else if (ratio > 1.08) {
+            video.classList.add("is-landscape");
+          } else {
+            video.classList.add("is-square");
+          }
+        }, { once: true });
+
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      }
+    }
+
+    function showNextCarouselItem(immediate = false) {
+      const slots = heroCarousel.querySelectorAll(".carousel-slide");
+      const nextSlotIndex = immediate ? activeCarouselSlot : 1 - activeCarouselSlot;
+      const incomingSlot = slots[nextSlotIndex];
+      const outgoingSlot = slots[activeCarouselSlot];
+      const item = nextCarouselItem();
+
+      populateCarouselSlot(incomingSlot, item);
+
+      if (immediate) {
+        incomingSlot.classList.add("active");
+      } else {
+        incomingSlot.classList.add("active");
+        outgoingSlot.classList.remove("active");
+
+        const outgoingVideo = outgoingSlot.querySelector("video");
+        if (outgoingVideo) {
+          setTimeout(() => {
+            outgoingVideo.pause();
+          }, 1600);
+        }
+      }
+
+      activeCarouselSlot = nextSlotIndex;
+      updateCarouselCounter();
+      startCarouselProgress();
+    }
+
+    function scheduleCarousel() {
+      if (carouselTimer) {
+        clearInterval(carouselTimer);
+      }
+
+      carouselTimer = setInterval(() => {
+        showNextCarouselItem();
+      }, carouselDuration);
+    }
+
+    function renderCarousel() {
+      if (!heroCarousel.children.length) {
+        heroCarousel.appendChild(createCarouselSlot());
+        heroCarousel.appendChild(createCarouselSlot());
+      }
+
+      heroCarousel.querySelectorAll(".carousel-slide").forEach((slot) => {
+        slot.classList.remove("active");
+        const video = slot.querySelector("video");
+        if (video) {
+          video.pause();
+        }
+      });
+
+      buildCarouselOrder();
+      activeCarouselSlot = 0;
+      showNextCarouselItem(true);
+      scheduleCarousel();
+    }
+
+    function setFocus(step) {
+      selectedHour = step.hour;
+      const narrative = (narrativeByHour[currentLang] && narrativeByHour[currentLang][step.hour]) || step.detail;
+
+      focusCard.classList.remove("is-entering");
+      focusCard.classList.add("is-leaving");
+
+      if (focusTransitionTimer) {
+        clearTimeout(focusTransitionTimer);
+      }
+
+      focusTransitionTimer = setTimeout(() => {
+        focusCard.innerHTML = `
+          <p class="focus-hour">${t("chartHourPrefix")} ${step.hour}</p>
+          <h3 class="focus-title">${step.title}</h3>
+          <p class="focus-text">${step.detail}</p>
+          <p class="focus-context">${narrative}</p>
+        `;
+
+        focusCard.classList.remove("is-leaving");
+        focusCard.classList.add("is-entering");
+
+        requestAnimationFrame(() => {
+          focusCard.classList.remove("is-entering");
+        });
+      }, 280);
+    }
+
+    function drawClockChart() {
+      const chart = document.getElementById("clock-chart");
+      chart.innerHTML = "";
+
+      const size = Math.min(chart.clientWidth, 560);
+      const width = chart.clientWidth;
+      const height = Math.max(390, size);
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = Math.min(width, height) * 0.34;
+
+      const svg = d3
+        .select("#clock-chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .style("display", "block");
+
+      const defs = svg.append("defs");
+      const glow = defs.append("filter").attr("id", "glow");
+      glow.append("feGaussianBlur").attr("stdDeviation", "2.8").attr("result", "blur");
+      const merge = glow.append("feMerge");
+      merge.append("feMergeNode").attr("in", "blur");
+      merge.append("feMergeNode").attr("in", "SourceGraphic");
+
+      svg.append("circle").attr("cx", centerX).attr("cy", centerY).attr("r", radius + 58).attr("fill", "none").attr("stroke", "rgba(47, 52, 69, 0.18)").attr("stroke-width", 1.2);
+      svg.append("circle").attr("cx", centerX).attr("cy", centerY).attr("r", radius + 28).attr("fill", "none").attr("stroke", "rgba(47, 52, 69, 0.28)").attr("stroke-width", 1.4).attr("stroke-dasharray", "2 8");
+
+      for (let i = 0; i < 12; i += 1) {
+        const angle = (Math.PI / 6) * i - Math.PI / 2;
+        const inner = radius + 26;
+        const outer = radius + 44;
+        svg.append("line").attr("x1", centerX + Math.cos(angle) * inner).attr("y1", centerY + Math.sin(angle) * inner).attr("x2", centerX + Math.cos(angle) * outer).attr("y2", centerY + Math.sin(angle) * outer).attr("stroke", "rgba(27, 26, 31, 0.45)").attr("stroke-width", 1.2);
+      }
+
+      svg.append("text").attr("x", centerX).attr("y", centerY - 12).attr("text-anchor", "middle").attr("font-family", "Cormorant Garamond").attr("font-size", 30).attr("fill", "#1b1a1f").text("DUNEX");
+      svg.append("text").attr("x", centerX).attr("y", centerY + 14).attr("text-anchor", "middle").attr("font-family", "Montserrat").attr("font-size", 11).attr("letter-spacing", "0.14em").attr("fill", "rgba(27, 26, 31, 0.64)").text(t("chartCenterBottom"));
+
+      const nodeGroup = svg.append("g");
+      const nodes = journeySteps.map((step, index) => {
+        const angle = (Math.PI / 6) * index - Math.PI / 2;
+        return { ...step, x: centerX + Math.cos(angle) * radius, y: centerY + Math.sin(angle) * radius };
+      });
+
+      const links = nodeGroup
+        .selectAll("line.connector")
+        .data(nodes)
+        .join("line")
+        .attr("class", "connector")
+        .attr("x1", (d) => d.x)
+        .attr("y1", (d) => d.y)
+        .attr("x2", (d, i) => nodes[(i + 1) % nodes.length].x)
+        .attr("y2", (d, i) => nodes[(i + 1) % nodes.length].y)
+        .attr("stroke", "rgba(47, 52, 69, 0.2)")
+        .attr("stroke-width", 1.2);
+      links.lower();
+
+      const gNode = nodeGroup
+        .selectAll("g.node")
+        .data(nodes)
+        .join("g")
+        .attr("class", "node")
+        .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+        .style("cursor", "pointer")
+        .on("mouseenter", function () {
+          d3.select(this).select("circle.outer").attr("r", 19);
+        })
+        .on("mouseleave", function () {
+          d3.select(this).select("circle.outer").attr("r", 16);
+        })
+        .on("click", function (event, d) {
+          setFocus(d);
+          gNode.select("circle.ring").attr("stroke-width", 1.4).attr("stroke", "rgba(255, 255, 255, 0.8)");
+          d3.select(this).select("circle.ring").attr("stroke", "#1b1a1f").attr("stroke-width", 2.1);
+        });
+
+      gNode.append("circle").attr("class", "outer").attr("r", 16).attr("fill", (d) => d.color).attr("filter", "url(#glow)").attr("opacity", 0.95);
+      gNode.append("circle").attr("class", "ring").attr("r", 16).attr("fill", "none").attr("stroke", "rgba(255, 255, 255, 0.84)").attr("stroke-width", 1.4);
+      gNode.append("text").attr("text-anchor", "middle").attr("dominant-baseline", "middle").attr("font-size", 11).attr("font-weight", 700).attr("font-family", "Montserrat").attr("fill", "#fff").text((d) => d.hour);
+      gNode.append("title").text((d) => `${t("chartHourPrefix")} ${d.hour} - ${d.title}`);
+
+      const selected = journeySteps.find((s) => s.hour === selectedHour) || journeySteps[0];
+      setFocus(selected);
+      gNode.filter((d) => d.hour === selected.hour).select("circle.ring").attr("stroke", "#1b1a1f").attr("stroke-width", 2.1);
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      journeySteps = translations[currentLang].steps;
+      applyI18n();
+      renderCarousel();
+      renderUvpCarousel();
+      drawClockChart();
+      langButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
+    }
+
+    tabs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabs.forEach((b) => b.classList.remove("active"));
+        Object.values(panels).forEach((panel) => panel.classList.remove("active"));
+        btn.classList.add("active");
+        panels[btn.dataset.tab].classList.add("active");
+      });
+    });
+
+    langButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+    });
+
+    uvpTiles.forEach((tile) => {
+      const toggle = tile.querySelector(".uvp-toggle");
+      toggle.addEventListener("click", () => {
+        activateUvpTile(tile.dataset.uvp);
+      });
+    });
+
+    applyI18n();
+    renderCarousel();
+    renderUvpCarousel();
+    drawClockChart();
+    window.addEventListener("resize", drawClockChart);
+  </script>
+</body>
+</html>
