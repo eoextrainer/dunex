@@ -461,7 +461,7 @@
     }
 
     .uvp-tile.active .uvp-content {
-      max-height: 220px;
+      max-height: 2400px;
       padding: 0 16px 14px;
     }
 
@@ -470,6 +470,133 @@
       font-size: 0.9rem;
       line-height: 1.6;
       color: rgba(27, 26, 31, 0.84);
+    }
+
+    .uvp-rich-block {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .benefit-list,
+    .partner-list {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(27, 26, 31, 0.86);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      display: grid;
+      gap: 6px;
+    }
+
+    .case-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .case-card {
+      border: 1px solid rgba(47, 52, 69, 0.14);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(246, 241, 236, 0.92));
+    }
+
+    .case-card h4 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    .case-meta {
+      margin: 0;
+      font-size: 0.82rem;
+      color: rgba(27, 26, 31, 0.7);
+    }
+
+    .case-results {
+      margin: 8px 0 0;
+      padding-left: 16px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: rgba(27, 26, 31, 0.84);
+    }
+
+    .calendar-wrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .calendar-year h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: var(--slate);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .calendar-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .calendar-mini {
+      border-radius: 12px;
+      border: 1px solid rgba(47, 52, 69, 0.12);
+      background: rgba(255, 255, 255, 0.92);
+      overflow: hidden;
+    }
+
+    .calendar-mini summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 10px 11px;
+      font-weight: 600;
+      font-size: 0.84rem;
+      color: var(--ink);
+      background: linear-gradient(120deg, rgba(197, 138, 58, 0.2), rgba(31, 125, 140, 0.16));
+    }
+
+    .calendar-mini p {
+      margin: 0;
+      padding: 10px 11px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: rgba(27, 26, 31, 0.83);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .partner-table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(47, 52, 69, 0.14);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .partner-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    .partner-table th,
+    .partner-table td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(47, 52, 69, 0.1);
+      vertical-align: top;
+      text-align: left;
+      font-size: 0.84rem;
+      color: rgba(27, 26, 31, 0.86);
+      line-height: 1.45;
+    }
+
+    .partner-table th {
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(47, 52, 69, 0.08);
+      color: rgba(27, 26, 31, 0.78);
     }
 
     .value-carousel-shell {
@@ -863,13 +990,25 @@
         <h2 class="panel-title" data-i18n="futureTitle">The DUNEX Unique Value Proposition</h2>
 
         <div class="uvp-accordion" id="uvp-accordion">
-          <article class="uvp-tile active" data-uvp="caseStudies">
+          <article class="uvp-tile active" data-uvp="yourBenefits">
+            <button class="uvp-toggle" type="button">
+              <h3 class="uvp-title" data-i18n="futureF0Title">Your Benefits</h3>
+              <span class="uvp-chevron">v</span>
+            </button>
+            <div class="uvp-content">
+              <p class="uvp-text" data-i18n="futureF0Text">An inviting growth exchange: you receive free and discounted DUNEX services, and in return you join our community membership and help endorse runway events with meaningful contributions.</p>
+              <div class="uvp-rich-block" id="uvp-rich-yourBenefits"></div>
+            </div>
+          </article>
+
+          <article class="uvp-tile" data-uvp="caseStudies">
             <button class="uvp-toggle" type="button">
               <h3 class="uvp-title" data-i18n="futureF1Title">Case Studies</h3>
               <span class="uvp-chevron">v</span>
             </button>
             <div class="uvp-content">
-              <p class="uvp-text" data-i18n="futureF1Text">Real life examples of individuals, companies and organisations we support and have helped. On click, an elegant hero carousel appears below, ready for a future mix of videos and images.</p>
+              <p class="uvp-text" data-i18n="futureF1Text">Five anonymised Indre-et-Loire companies from different sectors show measurable gains with DUNEX initiatives, then reinvest through membership and runway support tiers.</p>
+              <div class="uvp-rich-block" id="uvp-rich-caseStudies"></div>
             </div>
           </article>
 
@@ -879,7 +1018,8 @@
               <span class="uvp-chevron">v</span>
             </button>
             <div class="uvp-content">
-              <p class="uvp-text" data-i18n="futureF2Text">A very elegant fashion-themed calendar for years 2026 and 2027, outlining events scheduled, delivered, and upcoming. On click, the hero carousel renders media from this section bank.</p>
+              <p class="uvp-text" data-i18n="futureF2Text">A complete runway calendar for the rest of 2026 and all of 2027, each event anchored to a national or international festive moment.</p>
+              <div class="uvp-rich-block" id="uvp-rich-eventCalendar"></div>
             </div>
           </article>
 
@@ -889,7 +1029,8 @@
               <span class="uvp-chevron">v</span>
             </button>
             <div class="uvp-content">
-              <p class="uvp-text" data-i18n="futureF3Text">In this same hero carousel format, relevant tile text copy can be updated to compel companies and organisations to endorse the DUNEX cause.</p>
+              <p class="uvp-text" data-i18n="futureF3Text">Three transparent partner tiers show how contributions scale with visibility, consulting value, and event presence.</p>
+              <div class="uvp-rich-block" id="uvp-rich-partnerProgram"></div>
             </div>
           </article>
         </div>
@@ -955,12 +1096,14 @@
         communityC4Title: "Online Magazine Showcase",
         communityC4Text: "DUNEX digital kiosks showcasing partner portfolios, products, and services with ongoing visibility.",
         futureTitle: "The DUNEX Unique Value Proposition",
+        futureF0Title: "Your Benefits",
+        futureF0Text: "An inviting growth exchange: you receive free and discounted DUNEX services, and in return you join our community membership and help endorse runway events with meaningful contributions.",
         futureF1Title: "Case Studies",
-        futureF1Text: "Real life examples of individuals, companies and organisations we support and have helped. On click, an elegant hero carousel appears below, ready for a future mix of videos and images.",
+        futureF1Text: "Five anonymised Indre-et-Loire companies from different sectors show measurable gains with DUNEX initiatives, then reinvest through membership and runway support tiers.",
         futureF2Title: "Event Calendar",
-        futureF2Text: "A very elegant fashion-themed calendar for years 2026 and 2027, outlining events scheduled, delivered, and upcoming. On click, the hero carousel renders media from this section bank.",
+        futureF2Text: "A complete runway calendar for the rest of 2026 and all of 2027, each event anchored to a national or international festive moment.",
         futureF3Title: "Partner Program",
-        futureF3Text: "In this same hero carousel format, relevant tile text copy can be updated to compel companies and organisations to endorse the DUNEX cause.",
+        futureF3Text: "Three transparent partner tiers show how contributions scale with visibility, consulting value, and event presence.",
         footnote: "DUNEX | A circular growth model powered by expertise, creativity, and community impact.",
         carouselCounter: "Random reel",
         chartCenterBottom: "360 GROWTH JOURNEY",
@@ -1028,12 +1171,14 @@
         communityC4Title: "Vitrine Magazine en Ligne",
         communityC4Text: "Kiosques et magazine en ligne DUNEX mettant en avant portfolios, produits et services des partenaires.",
         futureTitle: "La Proposition de Valeur Unique DUNEX",
+        futureF0Title: "Vos B\u00e9n\u00e9fices",
+        futureF0Text: "Un \u00e9change de croissance clair : vous b\u00e9n\u00e9ficiez de services DUNEX gratuits et pr\u00e9f\u00e9rentiels, et en retour vous rejoignez notre communaut\u00e9 par abonnement tout en soutenant financi\u00e8rement les \u00e9v\u00e9nements runway.",
         futureF1Title: "\u00c9tudes de Cas",
-        futureF1Text: "Exemples concrets de personnes, entreprises et organisations que nous accompagnons et aidons. Au clic, un hero carousel \u00e9l\u00e9gant appara\u00eet dessous, pr\u00eat pour un futur mix de vid\u00e9os et d'images.",
+        futureF1Text: "Cinq entreprises anonymis\u00e9es d'Indre-et-Loire, issues de secteurs diff\u00e9rents, illustrent des r\u00e9sultats mesurables obtenus avec DUNEX, puis un r\u00e9investissement concret via abonnement et contribution runway.",
         futureF2Title: "Calendrier \u00c9v\u00e9nements",
-        futureF2Text: "Un calendrier tr\u00e8s \u00e9l\u00e9gant, inspir\u00e9 de la mode, pour 2026 et 2027, pr\u00e9sentant les \u00e9v\u00e9nements planifi\u00e9s, r\u00e9alis\u00e9s et \u00e0 venir. Au clic, le hero carousel affiche la banque m\u00e9dia de cette section.",
+        futureF2Text: "Un calendrier runway complet pour le reste de 2026 et toute l'ann\u00e9e 2027, align\u00e9 sur des temps forts nationaux et internationaux.",
         futureF3Title: "Programme Partenaire",
-        futureF3Text: "Dans ce m\u00eame format de hero carousel, le texte de la tuile pourra \u00eatre adapt\u00e9 pour convaincre entreprises et organisations d'endosser la cause DUNEX.",
+        futureF3Text: "Trois niveaux partenaires, clairs et progressifs, montrent comment les contributions augmentent avec les avantages de visibilit\u00e9, de conseil et de pr\u00e9sence \u00e9v\u00e9nementielle.",
         footnote: "DUNEX | Un mod\u00e8le circulaire de croissance propuls\u00e9 par l'expertise, la cr\u00e9ativit\u00e9 et l'impact communautaire.",
         carouselCounter: "Reel al\u00e9atoire",
         chartCenterBottom: "PARCOURS DE CROISSANCE 360",
@@ -1121,7 +1266,7 @@
     let uvpOrder = [];
     let uvpPointer = 0;
     let uvpActiveSlot = 0;
-    let activeUvpKey = "caseStudies";
+    let activeUvpKey = "yourBenefits";
     const uvpDuration = 10000;
 
     const reelFiles = [...new Set([
@@ -1158,6 +1303,10 @@
     ])];
 
     const uvpCaptionByTile = {
+      yourBenefits: {
+        en: "Your Benefits | Free value now, strategic growth partnership over time.",
+        fr: "Vos B\u00e9n\u00e9fices | De la valeur imm\u00e9diate et un partenariat de croissance durable."
+      },
       caseStudies: {
         en: "Case Studies | Real outcomes from people, companies, and organisations.",
         fr: "\u00c9tudes de Cas | R\u00e9sultats r\u00e9els pour personnes, entreprises et organisations."
@@ -1169,6 +1318,273 @@
       partnerProgram: {
         en: "Partner Program | Endorse the DUNEX cause with visible, tangible value.",
         fr: "Programme Partenaire | Endossez la cause DUNEX avec une valeur visible et tangible."
+      }
+    };
+
+    const uvpRichContent = {
+      en: {
+        yourBenefits: `
+          <ul class="benefit-list">
+            <li><strong>Free strategic value every month:</strong> 1h to 2h of digital marketing or AI consulting depending on your tier, plus runway visibility and brand promotion touchpoints.</li>
+            <li><strong>Discounted growth execution:</strong> reduced pricing on campaign strategy, content planning, event coordination, corporate fitness sessions, and studio production blocks.</li>
+            <li><strong>Integrated business support:</strong> practical help across digital marketing consulting, AI consulting, fitness training, photo/video studio production, event planning, and campaign consulting.</li>
+            <li><strong>Community-powered visibility:</strong> your brand joins a credible local movement where business growth and social impact are amplified together through runway events and media.</li>
+            <li><strong>Friendly exchange model:</strong> DUNEX invests first through free and discounted services; in return, partners join by membership subscription and financial endorsement of each runway edition.</li>
+          </ul>
+        `,
+        caseStudies: `
+          <div class="case-grid">
+            <article class="case-card">
+              <h4>Company Atlas-37 (anonymous) | B2B Manufacturing</h4>
+              <p class="case-meta">Initiative: AI-assisted lead qualification + LinkedIn funnel redesign.</p>
+              <ul class="case-results">
+                <li>+38% qualified leads in 4 months</li>
+                <li>Marketing ROI moved from 1.9x to 3.4x</li>
+                <li>+17% quarter-on-quarter sales</li>
+                <li>Joined <strong>Silver</strong> tier: 350/month + 1,000 per runway event</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Company LoireCare (anonymous) | Health & Wellness Clinics</h4>
+              <p class="case-meta">Initiative: patient acquisition campaign + trust storytelling content.</p>
+              <ul class="case-results">
+                <li>+29% appointment bookings in 90 days</li>
+                <li>Cost-per-acquisition down by 24%</li>
+                <li>+4.7/5 community sentiment on campaign feedback</li>
+                <li>Joined <strong>Professional</strong> tier: 150/month + 500 per runway event</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Company ChateauPulse (anonymous) | Hospitality & Events</h4>
+              <p class="case-meta">Initiative: photo/video studio packages + seasonal runway tie-ins.</p>
+              <ul class="case-results">
+                <li>+41% social engagement on launch sequences</li>
+                <li>+22% premium package sales for hosted events</li>
+                <li>2 sold-out themed evenings after runway endorsement</li>
+                <li>Joined <strong>Gold</strong> tier: 500/month + 2,000 per runway event</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Company VigneNova-37 (anonymous) | Wine & Artisan Retail</h4>
+              <p class="case-meta">Initiative: campaign consulting + cross-brand pop-up activation.</p>
+              <ul class="case-results">
+                <li>+33% monthly online revenue during activation period</li>
+                <li>+19% average order value uplift</li>
+                <li>New B2B partnership pipeline created through DUNEX network</li>
+                <li>Joined <strong>Professional</strong> tier: 150/month + 500 per runway event</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Company HexaLogis Tours (anonymous) | Logistics & Mobility</h4>
+              <p class="case-meta">Initiative: employer-brand campaign + fitness and culture activation.</p>
+              <ul class="case-results">
+                <li>+26% qualified job applications in 3 months</li>
+                <li>-18% churn in key operational teams</li>
+                <li>Brand favorability uplift measured at +31% post-event</li>
+                <li>Joined <strong>Silver</strong> tier: 350/month + 1,000 per runway event</li>
+              </ul>
+            </article>
+          </div>
+        `,
+        eventCalendar: `
+          <div class="calendar-wrap">
+            <section class="calendar-year">
+              <h4>Rest of 2026</h4>
+              <div class="calendar-grid">
+                <details class="calendar-mini"><summary>June 2026 | Fete de la Musique Runway</summary><p>21 June activation inspired by France's music celebrations; partner brands join sound-led runway storytelling.</p></details>
+                <details class="calendar-mini"><summary>July 2026 | Bastille Fashion Night</summary><p>14 July concept blending civic pride and inclusive style narratives with local creators and sponsor showcases.</p></details>
+                <details class="calendar-mini"><summary>August 2026 | Loire Summer White Gala</summary><p>Peak summer runway around regional tourism momentum, with lifestyle and hospitality brand integrations.</p></details>
+                <details class="calendar-mini"><summary>September 2026 | Back-to-Business Impact Runway</summary><p>Post-summer commercial relaunch format focused on B2B visibility, hiring, and strategic partner announcements.</p></details>
+                <details class="calendar-mini"><summary>October 2026 | Halloween Avant-Garde Show</summary><p>31 October creative runway experience for fashion-tech storytelling, themed launches, and social-first campaigns.</p></details>
+                <details class="calendar-mini"><summary>November 2026 | Beaujolais Nouveau Style Forum</summary><p>Third-Thursday event mixing gastronomy, design, and premium brand collaboration moments.</p></details>
+                <details class="calendar-mini"><summary>December 2026 | Year-End Lights Runway</summary><p>Holiday season finale inspired by Festival of Lights aesthetics and year-end recognition for partners.</p></details>
+              </div>
+            </section>
+            <section class="calendar-year">
+              <h4>Full 2027</h4>
+              <div class="calendar-grid">
+                <details class="calendar-mini"><summary>January 2027 | New Year Vision Runway</summary><p>Strategic kickoff event where members unveil growth intentions and co-marketing roadmaps.</p></details>
+                <details class="calendar-mini"><summary>February 2027 | Saint-Valentin Brand Gala</summary><p>Experience-led evening for lifestyle, hospitality, and retail campaigns tied to Valentine momentum.</p></details>
+                <details class="calendar-mini"><summary>March 2027 | International Women's Day Runway</summary><p>8 March flagship edition highlighting women-led founders, teams, and creator communities.</p></details>
+                <details class="calendar-mini"><summary>April 2027 | Spring Renaissance Showcase</summary><p>Spring collection runway anchored in renewal themes and product innovation storytelling.</p></details>
+                <details class="calendar-mini"><summary>May 2027 | Europe Day Unity Catwalk</summary><p>9 May event celebrating cross-border creativity and collaborative business growth values.</p></details>
+                <details class="calendar-mini"><summary>June 2027 | Music & Motion Runway</summary><p>Fete de la Musique-linked event designed for immersive audiovisual brand narratives.</p></details>
+                <details class="calendar-mini"><summary>July 2027 | Bastille Momentum Edition</summary><p>National-day-inspired show with high-visibility sponsor storytelling and community participation.</p></details>
+                <details class="calendar-mini"><summary>August 2027 | Summer Riviera Pop-Up Runway</summary><p>Tourism-focused activation connecting travel, wellness, and fashion-service brands.</p></details>
+                <details class="calendar-mini"><summary>September 2027 | Back-to-School Talent Runway</summary><p>Education and academy spotlight edition tied to recruitment, internships, and creator pipelines.</p></details>
+                <details class="calendar-mini"><summary>October 2027 | Halloween Future Costume Show</summary><p>High-reach seasonal runway for experimental styling, makeup partners, and digital content bursts.</p></details>
+                <details class="calendar-mini"><summary>November 2027 | Black Friday Style Commerce Night</summary><p>Sales-oriented runway around commerce acceleration and coordinated campaign launches.</p></details>
+                <details class="calendar-mini"><summary>December 2027 | Festival of Lights Grand Finale</summary><p>Lyon-inspired luminous finale event celebrating partner results, impact, and renewal commitments.</p></details>
+              </div>
+            </section>
+          </div>
+        `,
+        partnerProgram: `
+          <div class="partner-table-wrap">
+            <table class="partner-table">
+              <thead>
+                <tr>
+                  <th>Tier</th>
+                  <th>Monthly Subscription</th>
+                  <th>Minimum Runway Contribution</th>
+                  <th>Benefits</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Professional</strong></td>
+                  <td>150 EUR / month</td>
+                  <td>500 EUR / event</td>
+                  <td>1 x 1h free marketing or AI consulting per month; logo, website, and event promotion; discounted campaign consulting and corporate fitness bootcamps; 1-page advert in every monthly DUNEX magazine issue.</td>
+                </tr>
+                <tr>
+                  <td><strong>Silver</strong></td>
+                  <td>350 EUR / month</td>
+                  <td>1,000 EUR / event</td>
+                  <td>All Professional benefits, plus 2 x 1h free marketing or AI consulting, full brand presentation at runway events, and 1 full spread + article advert in every monthly DUNEX magazine issue.</td>
+                </tr>
+                <tr>
+                  <td><strong>Gold</strong></td>
+                  <td>500 EUR / month</td>
+                  <td>2,000 EUR / event</td>
+                  <td>All Silver benefits, plus full brand product/service pop-up at events, 1 free marketing campaign, and 1 fully dedicated online magazine issue.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      fr: {
+        yourBenefits: `
+          <ul class="benefit-list">
+            <li><strong>Valeur gratuite chaque mois :</strong> 1h a 2h de conseil marketing digital ou IA selon le niveau partenaire, avec visibilité runway et relais de marque.</li>
+            <li><strong>Exécution à tarif préférentiel :</strong> réductions sur le conseil campagne, la planification de contenu, la coordination événementielle, les bootcamps fitness corporate et les blocs studio photo/vidéo.</li>
+            <li><strong>Accompagnement business intégré :</strong> conseil marketing digital, conseil IA, training fitness, studio photo/vidéo, planning d'événements et conseil en campagnes marketing.</li>
+            <li><strong>Visibilité via la communauté :</strong> votre marque rejoint un mouvement local crédible où croissance business et impact sociétal se renforcent mutuellement.</li>
+            <li><strong>Modèle d'échange convivial :</strong> DUNEX investit d'abord avec des services gratuits et préférentiels ; en retour, les partenaires adhèrent par abonnement et soutiennent financièrement chaque édition runway.</li>
+          </ul>
+        `,
+        caseStudies: `
+          <div class="case-grid">
+            <article class="case-card">
+              <h4>Société Atlas-37 (anonyme) | Industrie B2B</h4>
+              <p class="case-meta">Initiative : qualification de leads assistée par IA + refonte du funnel LinkedIn.</p>
+              <ul class="case-results">
+                <li>+38% de leads qualifiés en 4 mois</li>
+                <li>ROI marketing passé de 1,9x à 3,4x</li>
+                <li>+17% de ventes trimestre sur trimestre</li>
+                <li>Adhésion niveau <strong>Silver</strong> : 350/mois + 1 000/événement runway</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Société LoireCare (anonyme) | Cliniques Santé & Bien-être</h4>
+              <p class="case-meta">Initiative : campagne acquisition patients + contenu de confiance.</p>
+              <ul class="case-results">
+                <li>+29% de prises de rendez-vous en 90 jours</li>
+                <li>-24% sur le coût d'acquisition</li>
+                <li>Appréciation communauté à +4,7/5</li>
+                <li>Adhésion niveau <strong>Professional</strong> : 150/mois + 500/événement runway</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Société ChateauPulse (anonyme) | Hôtellerie & Événementiel</h4>
+              <p class="case-meta">Initiative : packages studio photo/vidéo + activations runway saisonnières.</p>
+              <ul class="case-results">
+                <li>+41% d'engagement social sur les séquences de lancement</li>
+                <li>+22% de ventes sur les offres premium événementielles</li>
+                <li>2 soirées complètes après endorsement runway</li>
+                <li>Adhésion niveau <strong>Gold</strong> : 500/mois + 2 000/événement runway</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Société VigneNova-37 (anonyme) | Vin & Retail Artisanal</h4>
+              <p class="case-meta">Initiative : conseil campagne + activation pop-up croisée.</p>
+              <ul class="case-results">
+                <li>+33% de revenu e-commerce mensuel pendant l'activation</li>
+                <li>+19% de panier moyen</li>
+                <li>Nouveau pipeline B2B via le réseau DUNEX</li>
+                <li>Adhésion niveau <strong>Professional</strong> : 150/mois + 500/événement runway</li>
+              </ul>
+            </article>
+            <article class="case-card">
+              <h4>Société HexaLogis Tours (anonyme) | Logistique & Mobilité</h4>
+              <p class="case-meta">Initiative : campagne marque employeur + activation fitness & culture.</p>
+              <ul class="case-results">
+                <li>+26% de candidatures qualifiées en 3 mois</li>
+                <li>-18% de turnover sur les équipes clés</li>
+                <li>+31% de favorabilité marque après événement</li>
+                <li>Adhésion niveau <strong>Silver</strong> : 350/mois + 1 000/événement runway</li>
+              </ul>
+            </article>
+          </div>
+        `,
+        eventCalendar: `
+          <div class="calendar-wrap">
+            <section class="calendar-year">
+              <h4>Reste 2026</h4>
+              <div class="calendar-grid">
+                <details class="calendar-mini"><summary>Juin 2026 | Runway Fête de la Musique</summary><p>Activation du 21 juin inspirée de la Fête de la Musique avec storytelling marque en rythme.</p></details>
+                <details class="calendar-mini"><summary>Juillet 2026 | Bastille Fashion Night</summary><p>Édition du 14 juillet mêlant pride nationale, mode inclusive et prises de parole partenaires.</p></details>
+                <details class="calendar-mini"><summary>Août 2026 | Loire Summer White Gala</summary><p>Runway estival relié au pic touristique et aux activations lifestyle/hospitalité.</p></details>
+                <details class="calendar-mini"><summary>Septembre 2026 | Back-to-Business Impact Runway</summary><p>Format de relance commerciale pour visibilité B2B, recrutement et annonces partenaires.</p></details>
+                <details class="calendar-mini"><summary>Octobre 2026 | Halloween Avant-Garde Show</summary><p>Expérience du 31 octobre pour lancements thématiques, contenu social et innovation styling.</p></details>
+                <details class="calendar-mini"><summary>Novembre 2026 | Beaujolais Nouveau Style Forum</summary><p>Édition croisant gastronomie, design et collaborations premium de fin d'année.</p></details>
+                <details class="calendar-mini"><summary>Décembre 2026 | Year-End Lights Runway</summary><p>Finale holidays inspirée des codes Festival of Lights et valorisation des partenaires.</p></details>
+              </div>
+            </section>
+            <section class="calendar-year">
+              <h4>Tout 2027</h4>
+              <div class="calendar-grid">
+                <details class="calendar-mini"><summary>Janvier 2027 | New Year Vision Runway</summary><p>Lancement stratégique annuel avec objectifs membres et feuilles de route co-marketing.</p></details>
+                <details class="calendar-mini"><summary>Février 2027 | Saint-Valentin Brand Gala</summary><p>Soirée expérience pour campagnes lifestyle, retail et hospitalité.</p></details>
+                <details class="calendar-mini"><summary>Mars 2027 | International Women's Day Runway</summary><p>Édition phare du 8 mars valorisant fondatrices, équipes et créatrices.</p></details>
+                <details class="calendar-mini"><summary>Avril 2027 | Spring Renaissance Showcase</summary><p>Runway printanier axé renouveau des collections et innovation produit/service.</p></details>
+                <details class="calendar-mini"><summary>Mai 2027 | Europe Day Unity Catwalk</summary><p>Édition du 9 mai sur les valeurs de collaboration et de croissance partagée.</p></details>
+                <details class="calendar-mini"><summary>Juin 2027 | Music & Motion Runway</summary><p>Format immersif associé à la Fête de la Musique et aux narrations audiovisuelles.</p></details>
+                <details class="calendar-mini"><summary>Juillet 2027 | Bastille Momentum Edition</summary><p>Édition nationale à forte visibilité avec storytelling sponsors.</p></details>
+                <details class="calendar-mini"><summary>Août 2027 | Summer Riviera Pop-Up Runway</summary><p>Activation estivale reliant tourisme, bien-être et marques mode/services.</p></details>
+                <details class="calendar-mini"><summary>Septembre 2027 | Back-to-School Talent Runway</summary><p>Édition écoles/academies orientée recrutement, stages et vivier créateur.</p></details>
+                <details class="calendar-mini"><summary>Octobre 2027 | Halloween Future Costume Show</summary><p>Runway saisonnier pour styling expérimental, partenaires makeup et bursts digitaux.</p></details>
+                <details class="calendar-mini"><summary>Novembre 2027 | Black Friday Style Commerce Night</summary><p>Édition orientée performance commerciale et lancements coordonnés.</p></details>
+                <details class="calendar-mini"><summary>Décembre 2027 | Festival of Lights Grand Finale</summary><p>Finale lumineuse type Lyon célébrant résultats partenaires et engagements de renouvellement.</p></details>
+              </div>
+            </section>
+          </div>
+        `,
+        partnerProgram: `
+          <div class="partner-table-wrap">
+            <table class="partner-table">
+              <thead>
+                <tr>
+                  <th>Niveau</th>
+                  <th>Abonnement mensuel</th>
+                  <th>Contribution runway minimum</th>
+                  <th>Bénéfices</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Professional</strong></td>
+                  <td>150 EUR / mois</td>
+                  <td>500 EUR / événement</td>
+                  <td>1 x 1h de conseil marketing ou IA gratuit par mois ; promotion logo/site/événements ; réductions sur conseil campagne et bootcamps fitness corporate ; 1 page publicitaire dans chaque magazine mensuel DUNEX.</td>
+                </tr>
+                <tr>
+                  <td><strong>Silver</strong></td>
+                  <td>350 EUR / mois</td>
+                  <td>1 000 EUR / événement</td>
+                  <td>Tous les bénéfices Professional, plus 2 x 1h de conseil marketing ou IA gratuit, présentation complète de marque sur runway, et 1 double-page + article dans chaque magazine mensuel DUNEX.</td>
+                </tr>
+                <tr>
+                  <td><strong>Gold</strong></td>
+                  <td>500 EUR / mois</td>
+                  <td>2 000 EUR / événement</td>
+                  <td>Tous les bénéfices Silver, plus pop-up complet produit/service sur événement, 1 campagne marketing offerte, et 1 édition magazine en ligne entièrement dédiée.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
       }
     };
 
@@ -1184,6 +1600,16 @@
       });
       i18nAriaNodes.forEach((node) => {
         node.setAttribute("aria-label", t(node.getAttribute("data-i18n-aria-label")));
+      });
+    }
+
+    function renderUvpRichContent() {
+      const content = uvpRichContent[currentLang] || uvpRichContent.en;
+      Object.entries(content).forEach(([key, html]) => {
+        const block = document.getElementById(`uvp-rich-${key}`);
+        if (block) {
+          block.innerHTML = html;
+        }
       });
     }
 
@@ -1690,6 +2116,7 @@
       currentLang = lang;
       journeySteps = translations[currentLang].steps;
       applyI18n();
+      renderUvpRichContent();
       renderCarousel();
       renderUvpCarousel();
       drawClockChart();
@@ -1717,6 +2144,7 @@
     });
 
     applyI18n();
+    renderUvpRichContent();
     renderCarousel();
     renderUvpCarousel();
     drawClockChart();
