@@ -66,27 +66,18 @@
       padding: 28px 0 42px;
     }
 
-    main,
-    section,
-    article,
-    div,
     p,
     li,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    button,
-    a,
-    span,
-    td,
-    th,
-    summary,
-    label,
-    input {
-      overflow-wrap: anywhere;
+    .doc-text,
+    .service-text,
+    .case-meta,
+    .case-results,
+    .partner-subtitle,
+    .source-card p,
+    .mini-note,
+    .crowd-meta {
+      overflow-wrap: break-word;
+      word-break: normal;
     }
 
     .hero {
@@ -1203,6 +1194,26 @@
       gap: 10px;
     }
 
+    .partner-mobile-finance-nav {
+      display: none;
+      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .plan-mobile-jump {
+      border: 1px solid rgba(47, 52, 69, 0.16);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--slate);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
     .code-snippet {
       margin: 0;
       padding: 12px;
@@ -1414,6 +1425,20 @@
         margin-top: 14px;
       }
 
+      #journey-panel .panel-shell,
+      #services-panel .panel-shell,
+      #community-panel .panel-shell,
+      #future-panel .panel-shell,
+      #partner-panel .panel-shell {
+        padding: 12px;
+      }
+
+      #services-panel .service-grid,
+      #community-panel .community-grid,
+      #future-panel .future-grid {
+        gap: 10px;
+      }
+
       .panel-title,
       .diagram-title,
       .doc-heading {
@@ -1578,6 +1603,31 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: rgba(27, 26, 31, 0.52);
+        writing-mode: horizontal-tb;
+        white-space: nowrap;
+        word-break: normal;
+        overflow-wrap: normal;
+      }
+
+      .doc-table caption,
+      .doc-table.has-mobile-cards caption,
+      .partner-table.has-mobile-cards caption {
+        writing-mode: horizontal-tb;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: normal;
+      }
+
+      .partner-mobile-finance-nav {
+        display: grid;
+        position: sticky;
+        top: 64px;
+        z-index: 22;
+        background: rgba(255, 250, 247, 0.94);
+        border: 1px solid rgba(47, 52, 69, 0.12);
+        border-radius: 14px;
+        padding: 8px;
+        backdrop-filter: blur(8px);
       }
 
       .plan-fold summary {
@@ -1929,6 +1979,10 @@
       text-align: left;
       padding: 0 0 6px 0;
       caption-side: top;
+      writing-mode: horizontal-tb;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
     .doc-table tr.total-row td {
@@ -2236,6 +2290,7 @@
         brandPill: "DUNES & EOEX LLP Venture",
         brandTitleMain: "DUNEX",
         brandTitleSecondary: "- Where Fashion and Commerce shine together",
+        brandTitleSecondaryMobile: "- Fashion x Commerce",
         brandSubtitle: "DUNEX turns monthly runway events into measurable sales, guaranteed paid talent, and recurring sponsor value.",
         metaHqLabel: "Model Reward Pillar",
         metaHqValue: "Each event protects talent value through fixed runway fees, image-rights pay, and covered transport and accommodation.",
@@ -2315,6 +2370,7 @@
         brandPill: "DUNES & EOEX LLP Venture",
         brandTitleMain: "DUNEX",
         brandTitleSecondary: "- Où la mode et le commerce brillent ensemble",
+        brandTitleSecondaryMobile: "- Mode x Commerce",
         brandSubtitle: "DUNEX transforme des événements runway mensuels en ventes mesurables, talents rémunérés et valeur sponsor récurrente.",
         metaHqLabel: "Pilier rémunération modèles",
         metaHqValue: "Chaque événement protège la valeur des talents avec cachet runway, droits d'image, transport et hébergement couverts.",
@@ -3216,7 +3272,15 @@
             <article class="premium-kpi"><h5>${isFr ? "Profit brut" : "Gross Profit"}</h5><p>${formatCurrency(scenario.grossProfit)}</p></article>
           </div>
 
-          <details class="plan-fold" open>
+          <div class="partner-mobile-finance-nav" aria-label="${isFr ? "Navigation sections finance" : "Finance section navigation"}">
+            <button class="plan-mobile-jump" data-plan-anchor="plan-${mode}-sec-21">${isFr ? "2.1 Hypothèses" : "2.1 Assumptions"}</button>
+            <button class="plan-mobile-jump" data-plan-anchor="plan-${mode}-sec-22">${isFr ? "2.2 Coûts/Revenus" : "2.2 Costs/Revenue"}</button>
+            <button class="plan-mobile-jump" data-plan-anchor="plan-${mode}-sec-23">${isFr ? "2.3 Préfinancement" : "2.3 Pre-Funding"}</button>
+            <button class="plan-mobile-jump" data-plan-anchor="plan-${mode}-sec-24">${isFr ? "2.4 P&L" : "2.4 P&L"}</button>
+            <button class="plan-mobile-jump" data-plan-anchor="plan-${mode}-sec-25">${isFr ? "2.5 Trajectoire" : "2.5 Trajectory"}</button>
+          </div>
+
+          <details id="plan-${mode}-sec-21" class="plan-fold" open>
             <summary>${isFr ? "2.1 Hypothèses d'entrée (base événement unitaire)" : "2.1 Input Assumptions (Single Event Basis)"}</summary>
             <div class="plan-fold-content">
               <div class="doc-table-wrap">
@@ -3244,7 +3308,7 @@
             </div>
           </details>
 
-          <details class="plan-fold" open>
+          <details id="plan-${mode}-sec-22" class="plan-fold" open>
             <summary>${isFr ? "2.2 Coûts et revenus d'un événement (modèle détaillé)" : "2.2 Single Event Cost & Revenue Projection (Detailed)"}</summary>
             <div class="plan-fold-content">
               <div class="doc-table-wrap">
@@ -3282,7 +3346,7 @@
             </div>
           </details>
 
-          <details class="plan-fold" open>
+          <details id="plan-${mode}-sec-23" class="plan-fold" open>
             <summary>${isFr ? "2.3 Préfinancement mensuel et logique de gap" : "2.3 Monthly Pre-Funding Analysis and Gap Logic"}</summary>
             <div class="plan-fold-content">
               <p class="doc-text">${isFr
@@ -3306,7 +3370,7 @@
             </div>
           </details>
 
-          <details class="plan-fold" open>
+          <details id="plan-${mode}-sec-25" class="plan-fold" open>
             <summary>${isFr ? "2.5 Trajectoire vers l'efficience opérationnelle" : "2.5 Path to Operational Efficiency"}</summary>
             <div class="plan-fold-content">
               <div class="doc-table-wrap">
@@ -3337,7 +3401,7 @@
             </div>
           </details>
 
-          <details class="plan-fold" open>
+          <details id="plan-${mode}-sec-24" class="plan-fold" open>
             <summary>${isFr ? "2.4 Synthèse P&L et distribution du profit" : "2.4 P&L Summary and Profit Distribution"}</summary>
             <div class="plan-fold-content">
               <p class="doc-text">${isFr
@@ -4089,7 +4153,14 @@ plt.show()</pre>
           legend: { orientation: "h", y: -0.22, font: { size: 10 } },
           font: { family: "Montserrat, sans-serif", size: 11 }
         };
-        const cfg = { displayModeBar: false, responsive: true };
+        const cfg = {
+          displayModeBar: false,
+          displaylogo: false,
+          responsive: true,
+          scrollZoom: false,
+          doubleClick: false,
+          modeBarButtonsToRemove: ["zoom2d", "pan2d", "select2d", "lasso2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d"]
+        };
 
         /* — Chart 1: Stacked Revenue vs Cost composition — */
         if (breakdownNode) {
@@ -4123,8 +4194,9 @@ plt.show()</pre>
           };
           Plotly.newPlot(breakdownNode, [...revTraces, ...costTraces, profitTrace],
             { ...layout, barmode: "stack",
-              yaxis: { title: "EUR", tickformat: ",d" },
-              xaxis: { tickfont: { size: 12, family: "Montserrat" } }
+              dragmode: false,
+              yaxis: { title: "EUR", tickformat: ",d", fixedrange: true },
+              xaxis: { tickfont: { size: 12, family: "Montserrat" }, fixedrange: true }
             }, cfg);
         }
 
@@ -4142,8 +4214,9 @@ plt.show()</pre>
           ], { ...layout,
             barmode: "overlay",
             bargap: 0.42,
-            xaxis: { title: isFr ? "Mois" : "Month", dtick: 1 },
-            yaxis: { title: "EUR", tickformat: ",d" }
+            dragmode: false,
+            xaxis: { title: isFr ? "Mois" : "Month", dtick: 1, fixedrange: true },
+            yaxis: { title: "EUR", tickformat: ",d", fixedrange: true }
           }, cfg);
         }
       });
@@ -4165,8 +4238,17 @@ plt.show()</pre>
           paper_bgcolor: "rgba(0,0,0,0)",
           plot_bgcolor: "rgba(245,241,236,0.6)",
           title: currentLang === "fr" ? "Profit brut par scénario" : "Gross Profit by Scenario",
-          yaxis: { title: "EUR" }
-        }, { displayModeBar: false, responsive: true });
+          dragmode: false,
+          xaxis: { fixedrange: true },
+          yaxis: { title: "EUR", fixedrange: true }
+        }, {
+          displayModeBar: false,
+          displaylogo: false,
+          responsive: true,
+          scrollZoom: false,
+          doubleClick: false,
+          modeBarButtonsToRemove: ["zoom2d", "pan2d", "select2d", "lasso2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d"]
+        });
       }
     }
 
@@ -4242,12 +4324,34 @@ plt.show()</pre>
         });
       });
 
+      const financeJumps = Array.from(partnerDocContent.querySelectorAll(".plan-mobile-jump"));
+      financeJumps.forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetId = button.dataset.planAnchor;
+          const targetSection = partnerDocContent.querySelector(`#${targetId}`);
+          if (!targetSection) {
+            return;
+          }
+          targetSection.open = true;
+          targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
       enhanceResponsiveTables(partnerDocContent);
       renderPartnerWebglCharts(finance);
     }
 
     function t(key) {
       return translations[currentLang][key] || key;
+    }
+
+    function syncResponsiveHeadline() {
+      const secondary = document.querySelector(".brand-title-secondary");
+      if (!secondary) {
+        return;
+      }
+      const isMobile = window.innerWidth <= 640;
+      secondary.textContent = isMobile ? t("brandTitleSecondaryMobile") : t("brandTitleSecondary");
     }
 
     function applyI18n() {
@@ -4259,6 +4363,7 @@ plt.show()</pre>
       i18nAriaNodes.forEach((node) => {
         node.setAttribute("aria-label", t(node.getAttribute("data-i18n-aria-label")));
       });
+      syncResponsiveHeadline();
     }
 
     function enhanceResponsiveTables(root = document) {
@@ -4912,7 +5017,10 @@ plt.show()</pre>
     renderCarousel();
     renderUvpCarousel();
     drawClockChart();
-    window.addEventListener("resize", drawClockChart);
+    window.addEventListener("resize", () => {
+      syncResponsiveHeadline();
+      drawClockChart();
+    });
   </script>
 </body>
 </html>
