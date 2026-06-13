@@ -2517,13 +2517,13 @@
       venueOpsCost: 3000,
       lcdCost: 500,
       marketingOpsCost: 600,
-      subscriptionFeeByMode: { conservative: 500, moderate: 750, optimistic: 1000 },
+      subscriptionFeeByMode: { conservative: 500, moderate: 500, optimistic: 500 },
       magazineIssuePrice: 5,
       adPagePrice: 90,
       crowdfundingMonthly: 4500,
-      monthlyBrandSponsors: { conservative: 90, moderate: 115, optimistic: 145 },
-      monthlyCorporateSponsors: { conservative: 70, moderate: 95, optimistic: 125 },
-      monthlyMediaSponsors: { conservative: 50, moderate: 75, optimistic: 100 }
+      monthlyBrandSponsors: { conservative: 10, moderate: 20, optimistic: 30 },
+      monthlyCorporateSponsors: { conservative: 10, moderate: 20, optimistic: 30 },
+      monthlyMediaSponsors: { conservative: 10, moderate: 20, optimistic: 30 }
     };
 
     function formatCurrency(amount) {
@@ -2625,7 +2625,7 @@
           { label: "Ticket Price", value: "EUR 35" },
           { label: "Model Range / Event", value: "10 to 30" },
           { label: "Average Event Cost", value: "EUR 16,140" },
-          { label: "Sponsor Subscription Range", value: "EUR 500 to EUR 1,000 / month" },
+          { label: "Computed Sponsor Subscription Fee", value: "EUR 500 / month (fixed)" },
           { label: "Profit Split", value: "Maureen 30%, EOEX 35%, DUNES 35%" }
         ],
         tabs: {
@@ -2651,7 +2651,7 @@
           { label: "Prix moyen du billet", value: "EUR 35" },
           { label: "Modèles / événement", value: "10 à 30" },
           { label: "Coût moyen par événement", value: "EUR 16 140" },
-          { label: "Fourchette abonnement sponsor", value: "EUR 500 à EUR 1 000 / mois" },
+          { label: "Abonnement sponsor utilisé dans les calculs", value: "EUR 500 / mois (fixe)" },
           { label: "Répartition du profit", value: "Maureen 30 %, EOEX 35 %, DUNES 35 %" }
         ],
         tabs: {
@@ -2854,11 +2854,11 @@
       const monthlyInflow = monthlySub + partnerMetrics.crowdfundingMonthly + ticketRevenue;
       const monthlySurplus = monthlyInflow - scenario.eventCost;
       const annualSubscriptions = monthlySub * 12;
-      const benchmarkSub85 = 85 * subscriptionFee * 3;
-      const benchmarkSurplus85 = (benchmarkSub85 + partnerMetrics.crowdfundingMonthly + ticketRevenue) - scenario.eventCost;
-      const benchmarkSub100 = 100 * subscriptionFee * 3;
-      const benchmarkSurplus100 = (benchmarkSub100 + partnerMetrics.crowdfundingMonthly + ticketRevenue) - scenario.eventCost;
-      const increment85To100 = (100 - 85) * subscriptionFee * 3;
+      const benchmarkSub10 = 10 * subscriptionFee * 3;
+      const benchmarkSurplus10 = (benchmarkSub10 + partnerMetrics.crowdfundingMonthly + ticketRevenue) - scenario.eventCost;
+      const benchmarkSub20 = 20 * subscriptionFee * 3;
+      const benchmarkSurplus20 = (benchmarkSub20 + partnerMetrics.crowdfundingMonthly + ticketRevenue) - scenario.eventCost;
+      const increment10To20 = (20 - 10) * subscriptionFee * 3;
 
       return `
         <div class="partner-plan-panel ${mode === "conservative" ? "active" : ""}" data-plan-panel="${mode}">
@@ -2952,10 +2952,10 @@
                 <article class="premium-kpi"><h5>${isFr ? "Surplus mensuel" : "Monthly surplus"}</h5><p>${formatCurrency(monthlySurplus)}</p></article>
               </div>
               <ul class="doc-list">
-                <li>${isFr ? `Benchmark prudent du dossier: 85 sponsors de chaque type => abonnement mensuel ${formatCurrency(benchmarkSub85)}.` : `Conservative benchmark from business dossier: 85 sponsors of each type => ${formatCurrency(benchmarkSub85)} monthly subscription.`}</li>
-                <li>${isFr ? `Surplus dans ce benchmark prudent: ${formatCurrency(benchmarkSurplus85)}.` : `Surplus under that benchmark: ${formatCurrency(benchmarkSurplus85)}.`}</li>
-                <li>${isFr ? `Passage à 100 sponsors de chaque type ajoute ${formatCurrency(increment85To100)} / mois.` : `Moving to 100 sponsors each adds ${formatCurrency(increment85To100)} per month.`}</li>
-                <li>${isFr ? `Surplus avec 100 sponsors de chaque type: ${formatCurrency(benchmarkSurplus100)}.` : `Surplus with 100 sponsors each: ${formatCurrency(benchmarkSurplus100)}.`}</li>
+                <li>${isFr ? `Benchmark prudent du dossier: 10 sponsors de chaque type => abonnement mensuel ${formatCurrency(benchmarkSub10)}.` : `Conservative benchmark from business dossier: 10 sponsors of each type => ${formatCurrency(benchmarkSub10)} monthly subscription.`}</li>
+                <li>${isFr ? `Surplus dans ce benchmark prudent: ${formatCurrency(benchmarkSurplus10)}.` : `Surplus under that benchmark: ${formatCurrency(benchmarkSurplus10)}.`}</li>
+                <li>${isFr ? `Passage à 20 sponsors de chaque type ajoute ${formatCurrency(increment10To20)} / mois.` : `Moving to 20 sponsors each adds ${formatCurrency(increment10To20)} per month.`}</li>
+                <li>${isFr ? `Surplus avec 20 sponsors de chaque type: ${formatCurrency(benchmarkSurplus20)}.` : `Surplus with 20 sponsors each: ${formatCurrency(benchmarkSurplus20)}.`}</li>
                 <li>${isFr ? "La logique financière devient autoportée: les subventions et paliers Silver/Gold/Platinum servent alors d'accélérateurs de marge et d'investissement." : "The model becomes self-funded: grants and Silver/Gold/Platinum tiers become margin and reinvestment accelerators."}</li>
               </ul>
             </div>
@@ -2968,13 +2968,24 @@
                 <table class="doc-table">
                   <thead><tr><th>${isFr ? "Mois" : "Month"}</th><th>${isFr ? "Activité" : "Activity"}</th><th>${isFr ? "Sponsors cible (par type)" : "Target sponsor count (each type)"}</th></tr></thead>
                   <tbody>
-                    <tr><td>July 2026</td><td>${isFr ? "Setup association, compte bancaire, profil crowdfunding" : "Association setup, bank account, crowdfunding profile"}</td><td>${isFr ? "Démarrage crowdfunding EUR 50 min" : "Start crowdfunding at EUR 50 minimum"}</td></tr>
-                    <tr><td>August 2026</td><td>${isFr ? "Campagne acquisition sponsors marques" : "Launch brand sponsor acquisition"}</td><td>40</td></tr>
-                    <tr><td>September 2026</td><td>${isFr ? "Premier pilote (12 modèles, 60 invités)" : "First pilot event (12 models, 60 guests)"}</td><td>55</td></tr>
-                    <tr><td>October 2026</td><td>${isFr ? "Deuxième pilote (15 modèles, 80 invités)" : "Second pilot event (15 models, 80 guests)"}</td><td>70</td></tr>
-                    <tr><td>November 2026</td><td>${isFr ? "Troisième pilote (15 modèles, 100 invités)" : "Third pilot event (15 models, 100 guests)"}</td><td>85</td></tr>
-                    <tr><td>December 2026</td><td>${isFr ? "Optimisation, data, demandes de subventions" : "Optimization, data collection, grant applications"}</td><td>85+</td></tr>
-                    <tr><td>January 2027</td><td>${isFr ? "Lancement opérationnel mensuel" : "Full monthly launch"}</td><td>100+</td></tr>
+                    <tr><td>July 2026</td><td>${isFr ? "Structuration légale et onboarding partenaires fondateurs" : "Legal setup and founding partner onboarding"}</td><td>${isFr ? "6 / type" : "6 / type"}</td></tr>
+                    <tr><td>August 2026</td><td>${isFr ? "Prospection terrain et social selling" : "Field prospecting and social selling"}</td><td>${isFr ? "8 / type" : "8 / type"}</td></tr>
+                    <tr><td>September 2026</td><td>${isFr ? "Premier pilote commercial (format prudent)" : "First commercial pilot (conservative format)"}</td><td>${isFr ? "10 / type" : "10 / type"}</td></tr>
+                    <tr><td>October 2026</td><td>${isFr ? "Activation contenu + retargeting" : "Content activation + retargeting"}</td><td>${isFr ? "11 / type" : "11 / type"}</td></tr>
+                    <tr><td>November 2026</td><td>${isFr ? "Pilote 2 et amélioration conversion" : "Pilot 2 and conversion optimization"}</td><td>${isFr ? "12 / type" : "12 / type"}</td></tr>
+                    <tr><td>December 2026</td><td>${isFr ? "Clôture annuelle et consolidation pipeline" : "Year-end close and pipeline consolidation"}</td><td>${isFr ? "13 / type" : "13 / type"}</td></tr>
+                    <tr><td>January 2027</td><td>${isFr ? "Lancement mensuel officiel" : "Official monthly launch"}</td><td>${isFr ? "14 / type" : "14 / type"}</td></tr>
+                    <tr><td>February 2027</td><td>${isFr ? "Optimisation CRM et upsell Silver" : "CRM optimization and Silver upsell"}</td><td>${isFr ? "15 / type" : "15 / type"}</td></tr>
+                    <tr><td>March 2027</td><td>${isFr ? "Runway IWD et acquisition partenaires médias" : "IWD runway and media partner acquisition"}</td><td>${isFr ? "16 / type" : "16 / type"}</td></tr>
+                    <tr><td>April 2027</td><td>${isFr ? "Extension corporate locale" : "Local corporate expansion"}</td><td>${isFr ? "17 / type" : "17 / type"}</td></tr>
+                    <tr><td>May 2027</td><td>${isFr ? "Offres premium et bundles visibilité" : "Premium offers and visibility bundles"}</td><td>${isFr ? "18 / type" : "18 / type"}</td></tr>
+                    <tr><td>June 2027</td><td>${isFr ? "Optimisation marge opérationnelle" : "Operational margin optimization"}</td><td>${isFr ? "19 / type" : "19 / type"}</td></tr>
+                    <tr><td>July 2027</td><td>${isFr ? "Accélération saison estivale" : "Summer acceleration"}</td><td>${isFr ? "20 / type" : "20 / type"}</td></tr>
+                    <tr><td>August 2027</td><td>${isFr ? "Renforcement cross-sell partenaires" : "Partner cross-sell reinforcement"}</td><td>${isFr ? "22 / type" : "22 / type"}</td></tr>
+                    <tr><td>September 2027</td><td>${isFr ? "Rentrée business et packages Gold" : "Business season restart and Gold packages"}</td><td>${isFr ? "24 / type" : "24 / type"}</td></tr>
+                    <tr><td>October 2027</td><td>${isFr ? "Série contenus haute conversion" : "High-conversion content series"}</td><td>${isFr ? "26 / type" : "26 / type"}</td></tr>
+                    <tr><td>November 2027</td><td>${isFr ? "Sprint commercial de fin d'année" : "Year-end commercial sprint"}</td><td>${isFr ? "28 / type" : "28 / type"}</td></tr>
+                    <tr><td>December 2027</td><td>${isFr ? "Bilan annuel et préparation 2028" : "Annual review and 2028 prep"}</td><td>${isFr ? "30 / type" : "30 / type"}</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -2984,26 +2995,35 @@
           <details class="plan-fold" open>
             <summary>${isFr ? "2.4 Synthèse P&L et distribution du profit" : "2.4 P&L Summary and Profit Distribution"}</summary>
             <div class="plan-fold-content">
+              <p class="doc-text">${isFr
+                ? "Cette section détaille exactement les calculs utilisés. Le montant d'abonnement sponsor est fixe: EUR 500 / mois pour tous les scénarios."
+                : "This section shows the exact computation path. Sponsor subscription is fixed at EUR 500 per month in all scenarios."}</p>
               <div class="doc-table-wrap">
                 <table class="doc-table">
                   <thead>
-                    <tr><th>${isFr ? "Poste" : "Item"}</th><th>${isFr ? "Hypothèse" : "Assumption"}</th><th>${isFr ? "Valeur" : "Value"}</th></tr>
+                    <tr><th>${isFr ? "Poste" : "Item"}</th><th>${isFr ? "Formule" : "Formula"}</th><th>${isFr ? "Valeur" : "Value"}</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>${isFr ? "Recette billetterie" : "Ticket Revenue"}</td><td>100 x 35 EUR</td><td>${formatCurrency(partnerMetrics.ticketPrice * partnerMetrics.expectedAttendance)}</td></tr>
-                    <tr><td>${isFr ? "Abonnements mensuels" : "Monthly Subscriptions"}</td><td>${isFr ? "Marques + corporate + médias" : "Brand + corporate + media"}</td><td>${formatCurrency(monthlySub)}</td></tr>
-                    <tr><td>${isFr ? "Crowdfunding mensuel" : "Monthly Crowdfunding"}</td><td>${isFr ? "Hypothèse pilote" : "Pilot assumption"}</td><td>${formatCurrency(partnerMetrics.crowdfundingMonthly)}</td></tr>
-                    <tr><td>${isFr ? "Revenu événement total" : "Total Event Revenue"}</td><td>${scenarioLabel(mode, currentLang)}</td><td>${formatCurrency(scenario.eventRevenue)}</td></tr>
-                    <tr><td>${isFr ? "Coût événement total" : "Total Event Cost"}</td><td>${isFr ? "Modèle conservateur des coûts" : "Conservative cost model"}</td><td>${formatCurrency(scenario.eventCost)}</td></tr>
-                    <tr><td><strong>${isFr ? "Profit brut" : "Gross Profit"}</strong></td><td></td><td><strong>${formatCurrency(scenario.grossProfit)}</strong></td></tr>
+                    <tr><td>${isFr ? "Recette billetterie" : "Ticket revenue"}</td><td>${partnerMetrics.expectedAttendance} x EUR ${partnerMetrics.ticketPrice}</td><td>${formatCurrency(ticketRevenue)}</td></tr>
+                    <tr><td>${isFr ? "Abonnements marques" : "Brand subscriptions"}</td><td>${sponsorCountByType.brand} x EUR 500</td><td>${formatCurrency(sponsorCountByType.brand * 500)}</td></tr>
+                    <tr><td>${isFr ? "Abonnements corporate" : "Corporate subscriptions"}</td><td>${sponsorCountByType.corporate} x EUR 500</td><td>${formatCurrency(sponsorCountByType.corporate * 500)}</td></tr>
+                    <tr><td>${isFr ? "Abonnements médias" : "Media subscriptions"}</td><td>${sponsorCountByType.media} x EUR 500</td><td>${formatCurrency(sponsorCountByType.media * 500)}</td></tr>
+                    <tr><td>${isFr ? "Total abonnements mensuels" : "Total monthly subscriptions"}</td><td>(${sponsorCountByType.brand} + ${sponsorCountByType.corporate} + ${sponsorCountByType.media}) x EUR 500</td><td>${formatCurrency(monthlySub)}</td></tr>
+                    <tr><td>${isFr ? "Crowdfunding mensuel" : "Monthly crowdfunding"}</td><td>${isFr ? "90 contributions x EUR 50" : "90 contributions x EUR 50"}</td><td>${formatCurrency(partnerMetrics.crowdfundingMonthly)}</td></tr>
+                    <tr><td>${isFr ? "Magazine (pub + ventes)" : "Magazine (ads + sales)"}</td><td>(2 x EUR ${partnerMetrics.adPagePrice}) + (20 x EUR ${partnerMetrics.magazineIssuePrice})</td><td>${formatCurrency((2 * partnerMetrics.adPagePrice) + (20 * partnerMetrics.magazineIssuePrice))}</td></tr>
+                    <tr><td><strong>${isFr ? "Revenu événement total" : "Total event revenue"}</strong></td><td>${formatCurrency(ticketRevenue)} + ${formatCurrency(monthlySub)} + ${formatCurrency(partnerMetrics.crowdfundingMonthly)} + ${formatCurrency((2 * partnerMetrics.adPagePrice) + (20 * partnerMetrics.magazineIssuePrice))}</td><td><strong>${formatCurrency(scenario.eventRevenue)}</strong></td></tr>
+                    <tr><td>${isFr ? "Coût total modèles" : "Total model costs"}</td><td>${formatCurrency(modelRunway)} + ${formatCurrency(modelImage)} + ${formatCurrency(modelTravel)} + ${formatCurrency(modelAccommodation)}</td><td>${formatCurrency(modelRunway + modelImage + modelTravel + modelAccommodation)}</td></tr>
+                    <tr><td>${isFr ? "Coûts opérationnels fixes" : "Fixed operating costs"}</td><td>${formatCurrency(partnerMetrics.venueCost)} + ${formatCurrency(partnerMetrics.venueOpsCost)} + ${formatCurrency(partnerMetrics.lcdCost)} + ${formatCurrency(300)} + ${formatCurrency(300)}</td><td>${formatCurrency(partnerMetrics.venueCost + partnerMetrics.venueOpsCost + partnerMetrics.lcdCost + 300 + 300)}</td></tr>
+                    <tr><td><strong>${isFr ? "Coût événement total" : "Total event cost"}</strong></td><td>${formatCurrency(modelRunway + modelImage + modelTravel + modelAccommodation)} + ${formatCurrency(partnerMetrics.venueCost + partnerMetrics.venueOpsCost + partnerMetrics.lcdCost + 300 + 300)}</td><td><strong>${formatCurrency(scenario.eventCost)}</strong></td></tr>
+                    <tr><td><strong>${isFr ? "Profit brut" : "Gross profit"}</strong></td><td>${formatCurrency(scenario.eventRevenue)} - ${formatCurrency(scenario.eventCost)}</td><td><strong>${formatCurrency(scenario.grossProfit)}</strong></td></tr>
                   </tbody>
                 </table>
               </div>
               <h4 class="doc-subheading">${isFr ? "Répartition des profits" : "Profit Distribution"}</h4>
               <ul class="doc-list">
-                <li>${isFr ? "Maureen (30 %)" : "Maureen (30%)"}: ${formatCurrency(scenario.shares.maureenShare)}</li>
-                <li>EOEX (35%): ${formatCurrency(scenario.shares.eoexShare)}</li>
-                <li>DUNES (35%): ${formatCurrency(scenario.shares.dunesShare)}</li>
+                <li>${isFr ? "Maureen (30 %)" : "Maureen (30%)"}: ${formatCurrency(scenario.grossProfit)} x 30% = ${formatCurrency(scenario.shares.maureenShare)}</li>
+                <li>EOEX (35%): ${formatCurrency(scenario.grossProfit)} x 35% = ${formatCurrency(scenario.shares.eoexShare)}</li>
+                <li>DUNES (35%): ${formatCurrency(scenario.grossProfit)} x 35% = ${formatCurrency(scenario.shares.dunesShare)}</li>
               </ul>
               <p class="doc-text">${isFr
                 ? "Le pilotage 2026 doit sécuriser les volumes d'abonnement et maintenir une exécution opérationnelle lean pour préserver un profit positif sur chaque édition." 
@@ -3104,9 +3124,9 @@ Crowdfunding monthly average 100 x 50 = EUR 5,000
 Total event revenue = EUR 21,530
 
 2.3 Monthly Pre-Funding Analysis
-Annual subscription revenue at 85 sponsors each type:
-Brand EUR 510,000 | Corporate EUR 510,000 | Media EUR 510,000 | Total EUR 1,530,000
-Monthly subscription income EUR 127,500
+Annual subscription revenue at 10 sponsors each type (conservative floor):
+Brand EUR 60,000 | Corporate EUR 60,000 | Media EUR 60,000 | Total EUR 180,000
+Monthly subscription income EUR 15,000
 Crowdfunding monthly EUR 5,000
 Total monthly pre-event funding EUR 17,750
 Ticket sales per event EUR 3,500
@@ -3114,7 +3134,7 @@ Total monthly inflow EUR 21,250
 Single event cost EUR 29,650
 Gap EUR 8,400
 Gap closure levers:
-- 100 sponsors each type (adds EUR 22,500/month)
+- 20 sponsors each type (adds EUR 15,000/month)
 - 150 crowdfunding contributors (adds EUR 2,500/month)
 - state/regional grants (EUR 5,000-EUR 20,000 per event)
 - higher-tier sponsorships and additional magazine ad sales
@@ -3128,8 +3148,8 @@ August: sponsor acquisition to 40
 September: first pilot to 55
 October: second pilot to 70
 November: third pilot to 85
-December: optimization and grants at 85+
-January 2027: full launch at 100+
+December: optimization and grants at 13 each type
+January 2027: full launch at 14 each type
 
 3. Tangible & Non-Tangible Benefits
 3.1 Models: monetary and reputation benefits
@@ -3166,8 +3186,8 @@ Example at EUR 5,000 profit: Maureen EUR 1,500, EOEX EUR 1,750, DUNES EUR 1,750.
 9. Charts - Financial Summary
 9.1 Monthly Sponsorship Revenue Build-Up
 9.2 Single Event Cost Breakdown
-9.3 Annual Revenue by Source
-9.4 Annual Revenue Comparison 70 vs 100
+9.3 Monthly Revenue by Source (Jul 2026 - Dec 2027)
+9.4 Monthly Subscription & Profit Trajectory (Jul 2026 - Dec 2027)
 
 10. Next Steps Timeline
 July to January milestones as listed in the implementation table.`;
@@ -3583,7 +3603,7 @@ monthly_income = [s * 500 * 3 for s in sponsor_counts]
 
 plt.figure(figsize=(12, 6))
 plt.plot(months, monthly_income, marker="o", linewidth=3, markersize=10, color="#2C3E50")
-plt.title("DUNEX - Total Monthly Subscription Revenue (2026 Test Run)", fontsize=16, fontweight="bold")
+plt.title("DUNEX - Total Monthly Subscription Revenue (Jul 2026 - Dec 2027)", fontsize=16, fontweight="bold")
 plt.xlabel("Month (2026)", fontsize=12)
 plt.ylabel("Monthly Subscription Income (EUR)", fontsize=12)
 plt.grid(True, linestyle="--", alpha=0.6)
@@ -3603,45 +3623,58 @@ plt.pie(cost_values, labels=cost_categories, autopct="%1.1f%%", startangle=90, c
 plt.title("DUNEX - Single Event Cost Breakdown (EUR29,650 total)", fontsize=14, fontweight="bold")
 plt.tight_layout()
 plt.show()</pre>
-                  <h4 class="doc-subheading">9.3 Annual Revenue by Source (2027)</h4>
+                    <h4 class="doc-subheading">9.3 Monthly Revenue by Source (Jul 2026 - Dec 2027)</h4>
                   <pre class="code-snippet">import matplotlib.pyplot as plt
 
-revenue_sources = ["Brand Sponsorship (100)", "Corporate Sponsorship (100)", "Media Sponsorship (100)", "Ticket Sales (12 events x 100 guests)", "Magazine (ads + issues)", "Crowdfunding (100/month)"]
-revenue_amounts = [100 * 6000, 100 * 6000, 100 * 6000, 12 * 100 * 35, 12 * (2*90 + 20*5), 12 * 100 * 50]
+          months = [
+            "Jul-26", "Aug-26", "Sep-26", "Oct-26", "Nov-26", "Dec-26",
+            "Jan-27", "Feb-27", "Mar-27", "Apr-27", "May-27", "Jun-27",
+            "Jul-27", "Aug-27", "Sep-27", "Oct-27", "Nov-27", "Dec-27"
+          ]
+          targets = [6, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30]
+          fee_by_mode = [500]*6 + [750]*6 + [1000]*6
+
+          monthly_subscription = [t * 3 * f for t, f in zip(targets, fee_by_mode)]
+          ticket = [3500 for _ in months]
+          crowdfunding = [4500 for _ in months]
+          magazine = [280 for _ in months]
 
 plt.figure(figsize=(12, 6))
-bars = plt.bar(revenue_sources, revenue_amounts, color="#2980B9", edgecolor="black")
-plt.title("DUNEX - Projected Annual Revenue by Source (2027 Full Launch)", fontsize=14, fontweight="bold")
+          plt.stackplot(months, monthly_subscription, ticket, crowdfunding, magazine,
+                  labels=["Subscriptions", "Ticketing", "Crowdfunding", "Magazine"],
+                  colors=["#2C3E50", "#1F7D8C", "#C58A3A", "#B8485E"], alpha=0.9)
+          plt.title("DUNEX - Monthly Revenue Forecast (Jul 2026 to Dec 2027)", fontsize=14, fontweight="bold")
 plt.ylabel("Revenue (EUR)")
-plt.xticks(rotation=45, ha="right")
+          plt.xticks(rotation=45, ha="right", fontsize=9)
+          plt.legend(loc="upper left")
 plt.grid(axis="y", linestyle="--", alpha=0.7)
-for bar in bars:
-    plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 500, f"EUR{bar.get_height():,.0f}", ha="center", fontsize=10)
 plt.tight_layout()
 plt.show()</pre>
-                  <h4 class="doc-subheading">9.4 Annual Stack: 70 vs 100 Sponsors</h4>
+                    <h4 class="doc-subheading">9.4 Monthly Subscription & Profit Trajectory (Jul 2026 - Dec 2027)</h4>
                   <pre class="code-snippet">import numpy as np
 import matplotlib.pyplot as plt
 
-categories = ["Brand", "Corporate", "Media", "Tickets", "Magazine", "Crowdfunding"]
-revenue_70 = [70*6000, 70*6000, 70*6000, 12*100*35, 3360, 12*100*50]
-revenue_100 = [100*6000, 100*6000, 100*6000, 12*100*35, 3360, 12*100*50]
+          months = [
+            "Jul-26", "Aug-26", "Sep-26", "Oct-26", "Nov-26", "Dec-26",
+            "Jan-27", "Feb-27", "Mar-27", "Apr-27", "May-27", "Jun-27",
+            "Jul-27", "Aug-27", "Sep-27", "Oct-27", "Nov-27", "Dec-27"
+          ]
+          targets = [6, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30]
+          fee_by_mode = [500]*6 + [750]*6 + [1000]*6
+          subscription = [t * 3 * f for t, f in zip(targets, fee_by_mode)]
+          event_cost = 16340
+          profit = [s + 3500 + 4500 + 280 - event_cost for s in subscription]
 
-x = np.arange(len(categories))
-width = 0.35
+          x = np.arange(len(months))
 
-plt.figure(figsize=(12, 6))
-plt.bar(x - width/2, revenue_70, width, label="70 Sponsors Per Type", color="#95A5A6")
-plt.bar(x + width/2, revenue_100, width, label="100 Sponsors Per Type", color="#2C3E50")
-plt.ylabel("Annual Revenue (EUR)")
-plt.title("Annual Revenue Comparison: 70 vs 100 Sponsors of Each Type")
-plt.xticks(x, categories, rotation=45)
-plt.legend()
+          plt.figure(figsize=(14, 6))
+          plt.bar(x, profit, color="#C58A3A", alpha=0.88, label="Monthly Profit")
+          plt.plot(x, subscription, color="#2C3E50", marker="o", linewidth=2.5, label="Monthly Subscriptions")
+          plt.ylabel("EUR")
+          plt.title("Monthly Subscription and Profit Trajectory (Jul 2026 to Dec 2027)")
+          plt.xticks(x, months, rotation=45, fontsize=9)
+          plt.legend(loc="upper left")
 plt.grid(axis="y", linestyle="--", alpha=0.5)
-for i, v in enumerate(revenue_70):
-    plt.text(i - width/2, v + 500, f"EUR{v:,.0f}", ha="center", fontsize=9)
-for i, v in enumerate(revenue_100):
-    plt.text(i + width/2, v + 500, f"EUR{v:,.0f}", ha="center", fontsize=9)
 plt.tight_layout()
 plt.show()</pre>
                 </div>
@@ -3649,15 +3682,26 @@ plt.show()</pre>
 
               <div class="doc-table-wrap">
                 <table class="doc-table">
-                  <thead><tr><th>10. Next Steps Timeline (2026 Test Run)</th><th>Milestone</th><th>Responsible</th></tr></thead>
+                  <thead><tr><th>10. Monthly Forecast Timeline (Jul 2026 - Dec 2027)</th><th>Milestone</th><th>Target Sponsors (each type)</th></tr></thead>
                   <tbody>
-                    <tr><td>July 2026</td><td>Register as Association loi 1901, open dedicated bank account, launch HelloAsso and Ulule profile (EUR 50 minimum)</td><td>EOEX + DUNES</td></tr>
-                    <tr><td>August 2026</td><td>Launch brand sponsor acquisition campaign; target 40 bronze sponsors</td><td>Joint sales team</td></tr>
-                    <tr><td>September 2026</td><td>First pilot event (12 models, 60 guests, 40 sponsors)</td><td>DUNES + EOEX</td></tr>
-                    <tr><td>October 2026</td><td>Second pilot event (15 models, 80 guests, 55 sponsors)</td><td>Joint + Maureen</td></tr>
-                    <tr><td>November 2026</td><td>Third pilot event (15 models, 100 guests, 70 sponsors)</td><td>All partners</td></tr>
-                    <tr><td>December 2026</td><td>Data analysis, reconciliation and grant applications; target 85+ sponsors</td><td>External accountant + coordinator</td></tr>
-                    <tr><td>January 2027</td><td>Operational launch: monthly cadence with 100+ sponsors of each type</td><td>Entire DUNEX team</td></tr>
+                    <tr><td>July 2026</td><td>Association structuring and launch pipeline</td><td>6</td></tr>
+                    <tr><td>August 2026</td><td>Field prospecting and partner qualification</td><td>8</td></tr>
+                    <tr><td>September 2026</td><td>Conservative pilot event execution</td><td>10</td></tr>
+                    <tr><td>October 2026</td><td>Content amplification and conversion tuning</td><td>11</td></tr>
+                    <tr><td>November 2026</td><td>Second pilot with improved conversion funnel</td><td>12</td></tr>
+                    <tr><td>December 2026</td><td>Year-end consolidation and KPI review</td><td>13</td></tr>
+                    <tr><td>January 2027</td><td>Official monthly launch cycle</td><td>14</td></tr>
+                    <tr><td>February 2027</td><td>CRM optimization and retention sequences</td><td>15</td></tr>
+                    <tr><td>March 2027</td><td>IWD flagship runway and media expansion</td><td>16</td></tr>
+                    <tr><td>April 2027</td><td>Corporate sponsor expansion</td><td>17</td></tr>
+                    <tr><td>May 2027</td><td>Premium package rollout</td><td>18</td></tr>
+                    <tr><td>June 2027</td><td>Operational margin optimization</td><td>19</td></tr>
+                    <tr><td>July 2027</td><td>Summer acceleration campaign</td><td>20</td></tr>
+                    <tr><td>August 2027</td><td>Cross-sell growth loop</td><td>22</td></tr>
+                    <tr><td>September 2027</td><td>Business season restart sequence</td><td>24</td></tr>
+                    <tr><td>October 2027</td><td>High-conversion content sprint</td><td>26</td></tr>
+                    <tr><td>November 2027</td><td>Year-end partner expansion push</td><td>28</td></tr>
+                    <tr><td>December 2027</td><td>Annual close and 2028 planning</td><td>30</td></tr>
                   </tbody>
                 </table>
               </div>
