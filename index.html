@@ -28,6 +28,7 @@
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-pill: 999px;
+      --mobile-gutter: 16px;
     }
 
     * {
@@ -63,6 +64,29 @@
       width: min(1180px, 92vw);
       margin: 0 auto;
       padding: 28px 0 42px;
+    }
+
+    main,
+    section,
+    article,
+    div,
+    p,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    button,
+    a,
+    span,
+    td,
+    th,
+    summary,
+    label,
+    input {
+      overflow-wrap: anywhere;
     }
 
     .hero {
@@ -164,6 +188,20 @@
       backdrop-filter: blur(4px);
     }
 
+    .tabs,
+    .partner-doc-tabs,
+    .partner-plan-tabs,
+    .lang-switch {
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar,
+    .partner-doc-tabs::-webkit-scrollbar,
+    .partner-plan-tabs::-webkit-scrollbar,
+    .lang-switch::-webkit-scrollbar {
+      display: none;
+    }
+
     .lang-switch {
       margin-top: 14px;
       display: inline-flex;
@@ -211,6 +249,15 @@
       background: transparent;
       cursor: pointer;
       transition: all 220ms ease;
+    }
+
+    .tab-btn,
+    .partner-doc-tab,
+    .partner-plan-tab,
+    .lang-btn,
+    .dunex-login-btn,
+    .dunex-logout-btn {
+      min-height: 44px;
     }
 
     .tab-btn:hover {
@@ -885,6 +932,11 @@
       min-width: 720px;
     }
 
+    .partner-table.has-mobile-cards,
+    .doc-table.has-mobile-cards {
+      min-width: 0;
+    }
+
     .doc-table th,
     .doc-table td {
       border-bottom: 1px solid rgba(47, 52, 69, 0.1);
@@ -1208,6 +1260,32 @@
     }
 
     @media (max-width: 980px) {
+      .container {
+        width: min(1180px, 94vw);
+      }
+
+      .hero {
+        padding: 24px 20px 22px;
+      }
+
+      .meta-grid,
+      .partner-kpis,
+      .partner-insight-grid,
+      .premium-kpi-grid,
+      .source-grid,
+      .charts-grid,
+      .benefits-grid,
+      .calendar-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .partner-grid,
+      .partner-doc-shell,
+      .premium-doc-grid,
+      .doc-block {
+        gap: 14px;
+      }
+
       .journey-layout {
         grid-template-columns: 1fr;
       }
@@ -1223,22 +1301,162 @@
 
     @media (max-width: 640px) {
       .container {
-        width: min(1180px, 94vw);
+        width: calc(100vw - (var(--mobile-gutter) * 2));
+        padding: 16px 0 28px;
       }
 
-      .tabs {
+      body::before {
+        background-size: 24px 24px;
+        opacity: 0.3;
+      }
+
+      .hero,
+      .panel-shell,
+      .premium-tile,
+      .plan-fold,
+      .dunex-login-card {
+        border-radius: 18px;
+      }
+
+      .hero {
+        padding: 20px 16px 18px;
+      }
+
+      .brand-line {
+        margin-bottom: 12px;
+      }
+
+      .brand-pill {
+        padding: 6px 10px;
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+      }
+
+      .tabs,
+      .partner-doc-tabs,
+      .partner-plan-tabs,
+      .lang-switch {
         width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 6px;
+        gap: 6px;
+        scroll-snap-type: x proximity;
       }
 
       .brand-title {
+        font-size: clamp(1.8rem, 9vw, 2.45rem);
         white-space: normal;
         flex-wrap: wrap;
         gap: 4px;
       }
 
+      .brand-title-secondary {
+        display: block;
+        font-size: 0.5em;
+      }
+
+      .brand-subtitle,
+      .meta-value,
+      .doc-text,
+      .partner-subtitle,
+      .focus-text,
+      .focus-context,
+      .benefit-card p,
+      .service-text,
+      .source-card p,
+      .case-meta,
+      .case-results,
+      .crowd-meta,
+      .mini-note {
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .doc-list {
+        padding-left: 16px;
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .tabs {
+        position: sticky;
+        top: 10px;
+        z-index: 40;
+        margin-top: 18px;
+        border-radius: 18px;
+        background: rgba(255, 250, 247, 0.92);
+        backdrop-filter: blur(10px);
+      }
+
+      .lang-switch {
+        justify-content: flex-start;
+      }
+
+      .lang-btn,
+      .tab-btn,
+      .partner-doc-tab,
+      .partner-plan-tab {
+        flex: 0 0 auto;
+        min-width: max-content;
+        padding: 10px 12px;
+        font-size: 0.76rem;
+        line-height: 1.15;
+        scroll-snap-align: start;
+      }
+
       .tab-btn {
-        flex: 1 1 calc(50% - 8px);
         text-align: center;
+      }
+
+      .tab-panel {
+        margin-top: 14px;
+      }
+
+      .panel-title,
+      .diagram-title,
+      .doc-heading {
+        font-size: 1.34rem;
+        line-height: 1.1;
+      }
+
+      .doc-subheading {
+        font-size: 1.08rem;
+        line-height: 1.16;
+      }
+
+      .meta-grid {
+        gap: 10px;
+      }
+
+      .meta-card,
+      .partner-kpi,
+      .partner-insight,
+      .premium-kpi,
+      .source-card,
+      .benefit-card,
+      .chart-card,
+      .case-card,
+      .focus-card,
+      .panel-shell,
+      .premium-tile {
+        padding: 12px;
+      }
+
+      .meta-label,
+      .partner-kpi .kpi-label,
+      .premium-kpi h5,
+      .doc-table caption,
+      .bar-label,
+      .focus-hour {
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+      }
+
+      .partner-kpi .kpi-value,
+      .premium-kpi p {
+        font-size: 1rem;
       }
 
       .carousel-title {
@@ -1269,11 +1487,133 @@
       .carousel-copy {
         left: 16px;
         right: 16px;
-        bottom: 34px;
+        bottom: 24px;
+        padding: 12px 12px 10px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(27, 26, 31, 0.12), rgba(27, 26, 31, 0.54));
       }
 
       .carousel-caption {
         max-width: 100%;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      .carousel-nav,
+      .carousel-progress {
+        left: 16px;
+        right: 16px;
+      }
+
+      .carousel-nav {
+        bottom: 76px;
+      }
+
+      #clock-chart,
+      .webgl-chart {
+        min-height: 300px;
+      }
+
+      .doc-table-wrap,
+      .partner-table-wrap {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+      }
+
+      .doc-table.has-mobile-cards,
+      .partner-table.has-mobile-cards {
+        display: block;
+      }
+
+      .doc-table.has-mobile-cards caption,
+      .partner-table.has-mobile-cards caption {
+        padding-bottom: 10px;
+      }
+
+      .doc-table.has-mobile-cards thead,
+      .partner-table.has-mobile-cards thead {
+        display: none;
+      }
+
+      .doc-table.has-mobile-cards tbody,
+      .partner-table.has-mobile-cards tbody,
+      .doc-table.has-mobile-cards tr,
+      .partner-table.has-mobile-cards tr,
+      .doc-table.has-mobile-cards td,
+      .partner-table.has-mobile-cards td {
+        display: block;
+        width: 100%;
+      }
+
+      .doc-table.has-mobile-cards tr,
+      .partner-table.has-mobile-cards tr {
+        margin-bottom: 10px;
+        border: 1px solid rgba(47, 52, 69, 0.12);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: var(--soft-shadow);
+        overflow: hidden;
+      }
+
+      .doc-table.has-mobile-cards td,
+      .partner-table.has-mobile-cards td {
+        border-bottom: 1px solid rgba(47, 52, 69, 0.08);
+        padding: 8px 12px 10px;
+        font-size: 0.88rem;
+      }
+
+      .doc-table.has-mobile-cards td:last-child,
+      .partner-table.has-mobile-cards td:last-child {
+        border-bottom: 0;
+      }
+
+      .doc-table.has-mobile-cards td::before,
+      .partner-table.has-mobile-cards td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(27, 26, 31, 0.52);
+      }
+
+      .plan-fold summary {
+        padding: 12px;
+        font-size: 0.86rem;
+        line-height: 1.35;
+      }
+
+      .plan-fold-content {
+        padding: 12px;
+      }
+
+      .profit-summary-bar,
+      .dunex-user-badge {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .dunex-user-badge {
+        width: 100%;
+      }
+
+      .dunex-login-card {
+        width: min(100%, 92vw);
+        padding: 24px 18px;
+        gap: 18px;
+      }
+
+      .dunex-cred-table,
+      .code-snippet {
+        font-size: 0.72rem;
+      }
+
+      .mobile-scroll-hint {
+        display: block;
       }
     }
 
@@ -1617,6 +1957,13 @@
       color: var(--teal);
     }
 
+    .mobile-scroll-hint {
+      display: none;
+      margin: -2px 0 0;
+      font-size: 0.74rem;
+      color: rgba(27,26,31,0.58);
+    }
+
     .webgl-chart-label {
       font-size: 0.7rem;
       font-weight: 700;
@@ -1638,9 +1985,7 @@
         <span class="brand-title-secondary" data-i18n="brandTitleSecondary">- Where Fashion and Commerce shine together</span>
       </h1>
       <p class="brand-subtitle" data-i18n="brandSubtitle">
-        DUNEX is an investor-ready runway commerce platform: monthly events turn brand visibility into measurable
-        sales, guarantee paid opportunities for models and creative teams, and build long-term ecosystem value
-        through recurring subscriptions, media amplification, and local talent development.
+        DUNEX turns monthly runway events into measurable sales, guaranteed paid talent, and recurring sponsor value.
       </p>
 
       <div class="lang-switch" aria-label="Language switch">
@@ -1651,25 +1996,25 @@
       <div class="meta-grid">
         <article class="meta-card">
           <p class="meta-label" data-i18n="metaHqLabel">Model Reward Pillar</p>
-          <p class="meta-value" data-i18n="metaHqValue">Every DUNEX event converts model effort into guaranteed paid value: runway fees, image-rights fees, and covered transport and accommodation.</p>
+          <p class="meta-value" data-i18n="metaHqValue">Each event protects talent value through fixed runway fees, image-rights pay, and covered transport and accommodation.</p>
         </article>
         <article class="meta-card">
           <p class="meta-label" data-i18n="metaModelLabel">Sponsor Return Engine</p>
-          <p class="meta-value" data-i18n="metaModelValue">Sponsors gain same-day monetary upside through ticketed audiences, pop-up POS sales, LCD campaign reach, and recurring monthly brand exposure.</p>
+          <p class="meta-value" data-i18n="metaModelValue">Sponsors gain same-day sales potential through tickets, pop-up POS, LCD reach, and recurring monthly visibility.</p>
         </article>
         <article class="meta-card">
           <p class="meta-label" data-i18n="metaMissionLabel">French Fashion Impact</p>
-          <p class="meta-value" data-i18n="metaMissionValue">DUNEX promotes local French talents, brands, and businesses to reinforce regional competitiveness and elevate the future of the French fashion industry.</p>
+          <p class="meta-value" data-i18n="metaMissionValue">DUNEX elevates French talent, brands, and local business ecosystems through visible, commercially grounded fashion events.</p>
         </article>
       </div>
     </section>
 
     <nav class="tabs" aria-label="DUNEX sections" data-i18n-aria-label="tabsAria">
-      <button class="tab-btn active" data-tab="journey" data-i18n="tabJourney">360 Journey</button>
-      <button class="tab-btn" data-tab="services" data-i18n="tabServices">Services & Expertise</button>
-      <button class="tab-btn" data-tab="community" data-i18n="tabCommunity">Community Ecosystem</button>
-      <button class="tab-btn" data-tab="future" data-i18n="tabFuture">Our Unique Value</button>
-      <button class="tab-btn" data-tab="partner" data-i18n="tabPartner">Partner area</button>
+      <button class="tab-btn active" data-tab="journey" data-i18n="tabJourney">Journey</button>
+      <button class="tab-btn" data-tab="services" data-i18n="tabServices">Services</button>
+      <button class="tab-btn" data-tab="community" data-i18n="tabCommunity">Ecosystem</button>
+      <button class="tab-btn" data-tab="future" data-i18n="tabFuture">Value</button>
+      <button class="tab-btn" data-tab="partner" data-i18n="tabPartner">Partners</button>
     </nav>
 
     <section class="tab-panel active" id="journey-panel" role="tabpanel" aria-label="360 Journey" data-i18n-aria-label="tabJourney">
@@ -1824,8 +2169,8 @@
     <section class="tab-panel" id="partner-panel" role="tabpanel" aria-label="Partner area" data-i18n-aria-label="tabPartner">
       <article class="panel-shell partner-grid">
         <header class="partner-header">
-          <h2 class="panel-title" data-i18n="partnerTitle">Partner Area: Documentation Hub</h2>
-          <p class="partner-subtitle" data-i18n="partnerSubtitle">Business-facing case study and execution plan for DUNEX. This section is focused on partner-ready documentation only.</p>
+          <h2 class="panel-title" data-i18n="partnerTitle">Partner Documentation Hub</h2>
+          <p class="partner-subtitle" data-i18n="partnerSubtitle">Case studies, financial logic, and execution plans formatted for fast partner review.</p>
           <div id="dunex-user-badge" class="dunex-user-badge" style="display:none">
             <span id="dunex-user-name" class="dunex-user-name"></span>
             <span id="dunex-user-role" class="dunex-user-role"></span>
@@ -1891,21 +2236,21 @@
         brandPill: "DUNES & EOEX LLP Venture",
         brandTitleMain: "DUNEX",
         brandTitleSecondary: "- Where Fashion and Commerce shine together",
-        brandSubtitle: "DUNEX is an investor-ready runway commerce platform: monthly events turn brand visibility into measurable sales, guarantee paid opportunities for models and creative teams, and build long-term ecosystem value through recurring subscriptions, media amplification, and local talent development.",
+        brandSubtitle: "DUNEX turns monthly runway events into measurable sales, guaranteed paid talent, and recurring sponsor value.",
         metaHqLabel: "Model Reward Pillar",
-        metaHqValue: "Every DUNEX event converts model effort into guaranteed paid value: runway fees, image-rights fees, and covered transport and accommodation.",
+        metaHqValue: "Each event protects talent value through fixed runway fees, image-rights pay, and covered transport and accommodation.",
         metaModelLabel: "Sponsor Return Engine",
-        metaModelValue: "Sponsors gain same-day monetary upside through ticketed audiences, pop-up POS sales, LCD campaign reach, and recurring monthly brand exposure.",
+        metaModelValue: "Sponsors gain same-day sales potential through tickets, pop-up POS, LCD reach, and recurring monthly visibility.",
         metaMissionLabel: "French Fashion Impact",
-        metaMissionValue: "DUNEX promotes local French talents, brands, and businesses to reinforce regional competitiveness and elevate the future of the French fashion industry.",
+        metaMissionValue: "DUNEX elevates French talent, brands, and local business ecosystems through visible, commercially grounded fashion events.",
         tabsAria: "DUNEX sections",
-        tabJourney: "360 Journey",
-        tabServices: "Services & Expertise",
-        tabCommunity: "Community Ecosystem",
-        tabFuture: "Our Unique Value",
-        tabPartner: "Partner area",
-        partnerTitle: "Partner Area: Documentation Hub",
-        partnerSubtitle: "Business-facing case study and execution plan for DUNEX. This section is focused on partner-ready documentation only.",
+        tabJourney: "Journey",
+        tabServices: "Services",
+        tabCommunity: "Ecosystem",
+        tabFuture: "Value",
+        tabPartner: "Partners",
+        partnerTitle: "Partner Documentation Hub",
+        partnerSubtitle: "Case studies, financial logic, and execution plans formatted for fast partner review.",
         diagramTitle: "Clock-Based 360 Investor Journey",
         diagramCaption: "Each hour translates sponsorship into measurable outcomes: paid talent, stronger visibility, on-event commerce, and long-term ecosystem value.",
         chartAria: "DUNEX 12-hour journey diagram",
@@ -1970,21 +2315,21 @@
         brandPill: "DUNES & EOEX LLP Venture",
         brandTitleMain: "DUNEX",
         brandTitleSecondary: "- Où la mode et le commerce brillent ensemble",
-        brandSubtitle: "DUNEX est une plateforme runway-commerce pensée pour les investisseurs : des événements mensuels transforment la visibilité des marques en ventes mesurables, garantissent des opportunités rémunérées aux modèles et équipes créatives, et créent une valeur durable grâce aux abonnements récurrents, à l'amplification média et au développement des talents locaux.",
+        brandSubtitle: "DUNEX transforme des événements runway mensuels en ventes mesurables, talents rémunérés et valeur sponsor récurrente.",
         metaHqLabel: "Pilier rémunération modèles",
-        metaHqValue: "Chaque événement DUNEX transforme l'effort des modèles en valeur payée garantie : cachet runway, droits d'image, transport et hébergement pris en charge.",
+        metaHqValue: "Chaque événement protège la valeur des talents avec cachet runway, droits d'image, transport et hébergement couverts.",
         metaModelLabel: "Moteur de retour sponsor",
-        metaModelValue: "Les sponsors obtiennent un bénéfice monétaire immédiat via l'audience ticketée, les ventes POS pop-up, la portée LCD et une exposition de marque récurrente.",
+        metaModelValue: "Les sponsors gagnent un potentiel de vente immédiat via la billetterie, le POS pop-up, la portée LCD et une visibilité mensuelle récurrente.",
         metaMissionLabel: "Impact mode française",
-        metaMissionValue: "DUNEX promeut les talents, marques et entreprises locales afin de renforcer la compétitivité régionale et l'avenir de l'industrie de la mode française.",
+        metaMissionValue: "DUNEX valorise les talents français, les marques et les écosystèmes locaux via des événements mode visibles et commercialement solides.",
         tabsAria: "Sections DUNEX",
-        tabJourney: "Parcours 360",
-        tabServices: "Services et Expertise",
-        tabCommunity: "Écosystème Communauté",
-        tabFuture: "Notre Valeur Unique",
-        tabPartner: "Espace partenaires",
-        partnerTitle: "Espace Partenaires : Hub Documentation",
-        partnerSubtitle: "Étude de cas et plan d'exécution DUNEX pour partenaires. Cette section contient uniquement la documentation business complète.",
+        tabJourney: "Parcours",
+        tabServices: "Services",
+        tabCommunity: "Écosystème",
+        tabFuture: "Valeur",
+        tabPartner: "Partenaires",
+        partnerTitle: "Hub documentation partenaires",
+        partnerSubtitle: "Études de cas, logique financière et plans d'exécution pensés pour une lecture partenaire rapide.",
         diagramTitle: "Parcours Investisseur 360 en Horloge",
         diagramCaption: "Chaque heure transforme le soutien sponsor en résultats mesurables : talents payés, visibilité renforcée, commerce live et valeur durable.",
         chartAria: "Schéma du parcours DUNEX en 12 heures",
@@ -3897,6 +4242,7 @@ plt.show()</pre>
         });
       });
 
+      enhanceResponsiveTables(partnerDocContent);
       renderPartnerWebglCharts(finance);
     }
 
@@ -3912,6 +4258,38 @@ plt.show()</pre>
       });
       i18nAriaNodes.forEach((node) => {
         node.setAttribute("aria-label", t(node.getAttribute("data-i18n-aria-label")));
+      });
+    }
+
+    function enhanceResponsiveTables(root = document) {
+      const tables = root.querySelectorAll(".doc-table, .partner-table");
+      tables.forEach((table) => {
+        const headers = Array.from(table.querySelectorAll("thead th")).map((header) => header.textContent.trim());
+        const rows = table.querySelectorAll("tbody tr");
+        if (!headers.length || !rows.length) {
+          return;
+        }
+
+        table.classList.add("has-mobile-cards");
+
+        rows.forEach((row) => {
+          Array.from(row.children).forEach((cell, index) => {
+            if (cell.tagName !== "TD") {
+              return;
+            }
+            cell.setAttribute("data-label", headers[index] || headers[0] || "Item");
+          });
+        });
+
+        const wrapper = table.closest(".doc-table-wrap, .partner-table-wrap");
+        if (wrapper && !wrapper.nextElementSibling?.classList.contains("mobile-scroll-hint")) {
+          const hint = document.createElement("p");
+          hint.className = "mobile-scroll-hint";
+          hint.textContent = currentLang === "fr"
+            ? "Affichage mobile: chaque ligne devient une carte verticale lisible."
+            : "Mobile view: each row becomes a vertically readable card.";
+          wrapper.insertAdjacentElement("afterend", hint);
+        }
       });
     }
 
@@ -4432,6 +4810,7 @@ plt.show()</pre>
       applyI18n();
       renderUvpRichContent();
       renderPartnerArea();
+      enhanceResponsiveTables();
       renderCarousel();
       renderUvpCarousel();
       drawClockChart();
@@ -4529,6 +4908,7 @@ plt.show()</pre>
     applyI18n();
     renderUvpRichContent();
     renderPartnerArea();
+    enhanceResponsiveTables();
     renderCarousel();
     renderUvpCarousel();
     drawClockChart();
